@@ -29,14 +29,13 @@ public class RateMyClassMain {
 		JLabel searchLabel = new JLabel("Class Search: ");
 		panelForSearch.add(searchLabel);
 		
-		searchField = new JTextField("Enter the course you want to rate (e.g. CSSE333)", 40);
+		searchField = new JTextField(40);
 		panelForSearch.add(searchField);
 		
 		JButton searchButton = new JButton("Submit");
 		panelForSearch.add(searchButton);
 		
 		searchButton.addActionListener(new ActionListener() {
-		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(searchField.getText());
