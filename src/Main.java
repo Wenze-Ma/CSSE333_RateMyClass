@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		new RateMyClassMain();
 		ConnectionService connS = new ConnectionService();
-		if (connS.connect("fengt1", "Eagelbaba8")) {
+		if (connS.connect("", "")) {
 			Connection conn = connS.getConnection();
 			
 		}	
