@@ -12,7 +12,7 @@ public class ConnectionService {
 	}
 	public boolean connect(String user, String password) {
 		String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;"  
-				  + "database=SodaBasefengt120;"
+				  + "database=RateMyClass;"
                   + "user=" + user + ";"
                   + "password=" + password + ";"
                   + "encrypt=false;"
