@@ -9,7 +9,12 @@ public class Main {
 		new RateMyClassMain();
 		ConnectionService connS = new ConnectionService();
 		
-			
+		if (connS.connect("username","password")) {
+			Connection conn = connS.getConnection();
+		}	
+		else {
+			System.out.println("Error");
+		}
 	}
 
 }
