@@ -17,9 +17,12 @@ public class CommentInsert {
 	private JTextField rateField;
 	private JTextField courseField;
 	private JTextField professorField;
+	
+	private String username;
 
 	
-	public CommentInsert() {
+	public CommentInsert(String username) {
+		this.username = username;
 		myFrame = new JFrame();
 		myFrame.setSize(400, 150);
 	    myFrame.setLocationRelativeTo(null);
@@ -37,31 +40,36 @@ public class CommentInsert {
         commentField = new JTextField(20);
     	rateField = new JTextField(20);
     	courseField = new JTextField(20);
+    	professorField = new JTextField(20);
     	
-    	JButton submit = new JButton("Submit");
-    	JButton register = new JButton("I'm a new user");
+    	JButton insert = new JButton("insert");
+    	JButton cancel = new JButton("cancel");
     	
-//        panel.add(usernameLabel);
-//        panel.add(usernameField, "wrap");
-//        panel.add(passwordLabel);
-//        panel.add(passwordField, "wrap");
-        panel.add(submit, "skip, split2");
-        panel.add(register);
+        panel.add(commentLabel);
+        panel.add(commentField, "wrap");
+        panel.add(rateLabel);
+        panel.add(rateField, "wrap");
+        panel.add(courseName);
+        panel.add(courseField, "wrap");
+        panel.add(professorName);
+        panel.add(professorField, "wrap");
+        panel.add(insert);
+        panel.add(cancel);
         
-        submit.addActionListener(new ActionListener() {
+        insert.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				login();
+				insert();
 			}
 		});
         
-        register.addActionListener(new ActionListener() {
+        cancel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				myFrame.setVisible(false);
 				myFrame.dispose();
-				new Register();
+				new RateMyClassMain();
 			}
 		});
         
@@ -69,14 +77,17 @@ public class CommentInsert {
         myFrame.setVisible(true);
 	}
 	
-	private void login() {
-//		UserService us = new UserService(this.dbService);
-//		if (us.login(usernameField.getText(), passwordField.getText())) {
-//			myFrame.setVisible(false);
-//			myFrame.dispose();
-//			new RateMyClassMain();
-//		}
-
+private void insert() {
+		CommentService cs = new CommentService();
+		if(cs.addComment(commentField.getText(),
+				Integer.getInteger(rateField.getText()),
+				this.username, 
+				courseField.getText(), 
+				professorField.getText())) {
+			myFrame.setVisible(false);
+			myFrame.dispose();
+			new RateMyClassMain();
+		}
 	}
 	
 }
