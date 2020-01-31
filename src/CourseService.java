@@ -7,10 +7,8 @@
 	
 public class CourseService {
 
-		private ConnectionService dbService = null;
 		
-		public CourseService(ConnectionService dbService) {
-			this.dbService = dbService;
+		public CourseService() {
 		}
 		
 //		@Comment varchar(MAX), 
@@ -23,7 +21,7 @@ public class CourseService {
 			CallableStatement cs = null;
 			
 			try {
-				cs = this.dbService.getConnection().prepareCall("{call take_Course(?, ?)}");
+				cs = Main.connS.getConnection().prepareCall("{call take_Course(?, ?)}");
 				
 				if(username == null || username.isEmpty()) {
 					//print somethin to JFrame

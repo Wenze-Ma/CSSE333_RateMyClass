@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class CommentService {
-	private ConnectionService dbService = null;
 	
-	public CommentService(ConnectionService dbService) {
-		this.dbService = dbService;
+	public CommentService() {
 	}
 	
 //	@Comment varchar(MAX), 
@@ -24,7 +22,7 @@ public class CommentService {
 		CallableStatement cs = null;
 		
 		try {
-			cs = this.dbService.getConnection().prepareCall("{call insert_Comment(?, ?, ?, ?, ?)}");
+			cs = Main.connS.getConnection().prepareCall("{call insert_Comment(?, ?, ?, ?, ?)}");
 			
 			if(comment == null || comment.isEmpty()) {
 				//print somethin to JFrame
@@ -85,7 +83,7 @@ public class CommentService {
 				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
 				+ "where c.CourseID = ?";
 		try {
-			ps = this.dbService.getConnection().prepareStatement(statement);
+			ps = Main.connS.getConnection().prepareStatement(statement);
 			ps.setInt(1, course);
 			
 			ResultSet rs = ps.executeQuery();

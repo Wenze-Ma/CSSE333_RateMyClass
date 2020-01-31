@@ -11,7 +11,7 @@ public class Main {
 		
 		if (connS.connect("username","password")) {
 			Connection conn = connS.getConnection();
-			CommentService cs = new CommentService(connS);
+			CommentService cs = new CommentService();
 			ArrayList<ArrayList<String>> re = cs.getComment(2);
 			for(int i = 0; i < re.size(); i++) {
 				for(int j = 0; j < re.get(i).size(); j++) {
