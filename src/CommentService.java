@@ -13,9 +13,66 @@ public class CommentService {
 	}
 	
 	
-	public boolean editComment() {
+	public boolean editComment(String raterName, int commentID, String newComment, int newRate) {
+		CallableStatement cs = null;
 		
+		try {
+			cs = Main.connS.getConnection().prepareCall("{call edit_Comment(?,?,?,?)}");
+			if(newRate < 0 || newRate > 5) {
+				JOptionPane.showMessageDialog(null, "Illegal rate not allow");
+				return false;
+			}
+			
+			if(raterName == null || raterName.isEmpty()) {
+				//JOptionPane.showMessageDialog(null, "Empty rater name not allow");
+				return false;
+			}
+			
+			if(newComment == null || newComment.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Empty commnet not allow");
+			}
+			cs.setString(1, raterName);
+			cs.setInt(2, commentID);
+			cs.setString(3, newComment);
+			cs.setInt(4, newRate);
+			if(!cs.execute()) {
+				JOptionPane.showMessageDialog(null, "Edition succeeded");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Edition failed");
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
 		return false;
+		}
+	}
+	
+	public boolean deleteComment(String username, int commentID) {
+		CallableStatement cs = null;
+		
+		try {
+			cs = Main.connS.getConnection().prepareCall("{call edit_Comment(?,?)}");
+			
+			if(username == null || username.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Empty username not allow");
+				return false;
+			}
+			
+			cs.setString(1, username);
+			cs.setInt(2, commentID);
+			
+			if(!cs.execute()) {
+				JOptionPane.showMessageDialog(null, "deletion succeeded");
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "deletion failed");
+				return false;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		return false;
+		}
 	}
 	
 //	@Comment varchar(MAX), 
@@ -85,7 +142,7 @@ public class CommentService {
 	public ArrayList<ArrayList<String>> getComment(String courseName){
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name]\r\n" + 
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID" + 
 				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
 				+ "where c2.Name = ?";
 		try {
@@ -108,6 +165,7 @@ public class CommentService {
 			int dateIndex = rs.findColumn("Date");
 			int courseIndex = rs.findColumn("Course Name");
 			int ProfIndex = rs.findColumn("Professor Name");
+			int commentID = rs.findColumn("CommentID");
 			while (rs.next()) {
 				ArrayList<String> re = new ArrayList<String>();
 				re.add(rs.getString(ContentIndex));
@@ -115,6 +173,7 @@ public class CommentService {
 				re.add(rs.getString(dateIndex));
 				re.add(rs.getString(courseIndex));
 				re.add(rs.getString(ProfIndex));
+				re.add(rs.getString(commentID));
 				
 				comment.add(re);
 			}
