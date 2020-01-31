@@ -36,6 +36,7 @@ public class RateMyClassMain {
 	
 	private int sizeForPanel = 0;
 	
+	
 	public RateMyClassMain() {
 		this.myFrame = new JFrame();
 		myFrame.setSize(1500, 1000);
