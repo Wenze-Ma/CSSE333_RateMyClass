@@ -1,6 +1,7 @@
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -67,5 +68,16 @@ public class CommentService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+//			[Date]
+//		      ,[content]
+//		      ,[rate]
+//		      ,[CourseName]
+//		      ,[ProfessorName]
+	
+	public ArrayList<String, String, Integer, String, String> getComment(int course){
+		ArrayList<String, String, Integer, String, String> result = new ArrayList<String, String, Integer, String, String>();
+		
 	}
 }

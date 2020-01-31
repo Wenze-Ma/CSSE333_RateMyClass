@@ -35,10 +35,12 @@ public class RateMyClassMain {
 		JButton searchButton = new JButton("Submit");
 		panelForSearch.add(searchButton);
 		
+		
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(searchField.getText());
+				String courseName = searchField.getText();
+				
 			}
 		});
 		
