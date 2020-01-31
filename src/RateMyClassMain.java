@@ -38,7 +38,6 @@ public class RateMyClassMain {
 	
 	public RateMyClassMain() {
 		this.myFrame = new JFrame();
-		
 		myFrame.setSize(1500, 1000);
 		myFrame.setTitle("Rate My Class");
 	    myFrame.setLocationRelativeTo(null);
