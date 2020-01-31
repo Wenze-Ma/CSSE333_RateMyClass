@@ -7,10 +7,9 @@ import java.sql.Connection;
 public class Main {
 
 	public static void main(String[] args) {
-		new RateMyClassMain();
 		ConnectionService connS = new ConnectionService();
 		
-		if (connS.connect("username","password")) {
+		if (connS.connect("maw1","Mawz18010412")) {
 			Connection conn = connS.getConnection();
 			CommentService cs = new CommentService(connS);
 			ArrayList<ArrayList<String>> re = cs.getComment(2);
@@ -24,6 +23,7 @@ public class Main {
 		else {
 			System.out.println("Error");
 		}
+		new UserLogIn(connS);
 	}
 
 }

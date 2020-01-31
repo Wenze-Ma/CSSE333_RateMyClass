@@ -19,6 +19,7 @@ public class RateMyClassMain {
 		
 		myFrame.setSize(1500, 1000);
 		myFrame.setTitle("Rate My Class");
+	    myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
