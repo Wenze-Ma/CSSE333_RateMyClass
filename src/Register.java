@@ -17,7 +17,6 @@ public class Register {
 	private JTextField nameField;
 	private JTextField roleField;
 	private JTextField emailField;
-	private ConnectionService dbService = null;
 	
 	private String[] roleStrings = {"Student", "Professor"};
 	private JComboBox cmbMessageList = new JComboBox(roleStrings);
@@ -26,8 +25,7 @@ public class Register {
 
 
 	
-	public Register(ConnectionService dbService) {
-		this.dbService = dbService;
+	public Register() {
 		myFrame = new JFrame();
 		myFrame.setSize(400, 250);
 	    myFrame.setLocationRelativeTo(null);
@@ -81,7 +79,7 @@ public class Register {
 			public void actionPerformed(ActionEvent e) {
 				myFrame.setVisible(false);
 				myFrame.dispose();
-				new UserLogIn(dbService);
+				new UserLogIn();
 			}
 		});
         
@@ -97,7 +95,7 @@ public class Register {
 	}
 	
 	private void register() {
-		UserService us = new UserService(this.dbService);
+		UserService us = new UserService(Main.connS);
 		if (us.register(usernameField.getText(), passwordField.getText(), role, emailField.getText(), nameField.getText())) {
 			myFrame.setVisible(false);
 			myFrame.dispose();

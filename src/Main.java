@@ -6,8 +6,8 @@ import java.sql.Connection;
 
 public class Main {
 
+	public static ConnectionService connS = new ConnectionService();
 	public static void main(String[] args) {
-		ConnectionService connS = new ConnectionService();
 		
 		if (connS.connect("username","password")) {
 			Connection conn = connS.getConnection();
@@ -23,7 +23,7 @@ public class Main {
 		else {
 			System.out.println("Error");
 		}
-		new UserLogIn(connS);
+		new UserLogIn();
 	}
 
 }

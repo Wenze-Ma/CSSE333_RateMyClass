@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 public class RateMyClassMain {
 	private JFrame myFrame;
 	private JTextField searchField;
-	
+	private JTextField temp = new JTextField(20);
 	
 	public RateMyClassMain() {
 		this.myFrame = new JFrame();
@@ -36,6 +36,8 @@ public class RateMyClassMain {
 		JButton searchButton = new JButton("Submit");
 		panelForSearch.add(searchButton);
 		
+		panelForSearch.add(temp);
+		
 		
 		searchButton.addActionListener(new ActionListener() {
 			@Override
@@ -50,4 +52,7 @@ public class RateMyClassMain {
 		
 		myFrame.setVisible(true);
 	}
+	
+//	public void displayComment
+	
 }

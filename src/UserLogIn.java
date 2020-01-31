@@ -15,11 +15,9 @@ public class UserLogIn {
 	private JFrame myFrame;
 	private JTextField usernameField;
 	private JTextField passwordField;
-	private ConnectionService dbService = null;
 
 	
-	public UserLogIn(ConnectionService dbService) {
-		this.dbService = dbService;
+	public UserLogIn() {
 		myFrame = new JFrame();
 		myFrame.setSize(400, 150);
 	    myFrame.setLocationRelativeTo(null);
@@ -56,7 +54,7 @@ public class UserLogIn {
 			public void actionPerformed(ActionEvent e) {
 				myFrame.setVisible(false);
 				myFrame.dispose();
-				new Register(dbService);
+				new Register();
 			}
 		});
         
@@ -65,7 +63,7 @@ public class UserLogIn {
 	}
 	
 	private void login() {
-		UserService us = new UserService(this.dbService);
+		UserService us = new UserService(Main.connS);
 		if (us.login(usernameField.getText(), passwordField.getText())) {
 			myFrame.setVisible(false);
 			myFrame.dispose();
