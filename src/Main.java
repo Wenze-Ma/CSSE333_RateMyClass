@@ -11,6 +11,9 @@ public class Main {
 		
 		if (connS.connect("username","password")) {
 			Connection conn = connS.getConnection();
+//			CourseService cs = new CourseService(connS);
+//			cs.addTakeCourse("1", 3);
+			
 		}	
 		else {
 			System.out.println("Error");
