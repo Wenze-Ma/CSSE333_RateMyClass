@@ -12,6 +12,12 @@ public class CommentService {
 	public CommentService() {
 	}
 	
+	
+	public boolean editComment() {
+		
+		return false;
+	}
+	
 //	@Comment varchar(MAX), 
 //	@Rate int, 
 //	@RaterName varchar(15),
@@ -76,15 +82,15 @@ public class CommentService {
 //		      ,[CourseName]
 //		      ,[ProfessorName]
 	
-	public ArrayList<ArrayList<String>> getComment(int course){
+	public ArrayList<ArrayList<String>> getComment(String courseName){
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
 		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name]\r\n" + 
 				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
-				+ "where c.CourseID = ?";
+				+ "where c2.Name = ?";
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
-			ps.setInt(1, course);
+			ps.setString(1, courseName);
 			
 			ResultSet rs = ps.executeQuery();
 			return parseResults(rs);
