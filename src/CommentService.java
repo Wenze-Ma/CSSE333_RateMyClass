@@ -142,7 +142,7 @@ public class CommentService {
 	public ArrayList<ArrayList<String>> getComment(String courseName){
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID" + 
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName " + 
 				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
 				+ "where c2.Name = ?";
 		try {
@@ -165,7 +165,8 @@ public class CommentService {
 			int dateIndex = rs.findColumn("Date");
 			int courseIndex = rs.findColumn("Course Name");
 			int ProfIndex = rs.findColumn("Professor Name");
-			int commentID = rs.findColumn("CommentID");
+			int commentID = rs.findColumn("ID");
+			int raterName = rs.findColumn("raterName");
 			while (rs.next()) {
 				ArrayList<String> re = new ArrayList<String>();
 				re.add(rs.getString(ContentIndex));
@@ -174,6 +175,7 @@ public class CommentService {
 				re.add(rs.getString(courseIndex));
 				re.add(rs.getString(ProfIndex));
 				re.add(rs.getString(commentID));
+				re.add(rs.getString(raterName));
 				
 				comment.add(re);
 			}
