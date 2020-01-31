@@ -85,7 +85,7 @@ public class CommentService {
 		CallableStatement cs = null;
 		
 		try {
-			cs = Main.connS.getConnection().prepareCall("{call insert_Comment(?, ?, ?, ?, ?)}");
+			cs = Main.connS.getConnection().prepareCall("{? = call insert_Comment(?, ?, ?, ?, ?)}");
 			
 			if(comment == null || comment.isEmpty()) {
 				//print somethin to JFrame
@@ -111,22 +111,43 @@ public class CommentService {
 				JOptionPane.showMessageDialog(null,"Empty professor not allow");
 				return false;
 			} 
-			//cs.registerOutParameter(1, Types.INTEGER);
-			cs.setString(1, comment);
-			cs.setInt(2, rate);
-			cs.setString(3, raterName);
-			cs.setString(4, courseName);
-			cs.setString(5, professor);
+			cs.registerOutParameter(1, Types.INTEGER);
+			cs.setString(2, comment);
+			cs.setInt(3, rate);
+			cs.setString(4, raterName);
+			cs.setString(5, courseName);
+			cs.setString(6, professor);
 			
+			cs.execute();
+			int result = cs.getInt(1);
 			
-			if(!cs.execute()) {
-				JOptionPane.showMessageDialog(null, "Add succeeded");
-				//System.out.print(cs.getInt(1));
-				return true;
-			} else {
-				JOptionPane.showMessageDialog(null, "Add failed");
-				return false;
-			}
+			System.out.println(result);
+			
+			if(result == 0) {
+			    JOptionPane.showMessageDialog(null, "Add succeeded");
+			    return true;
+			} else if (result == 10) {
+				JOptionPane.showMessageDialog(null, "The rate is invalid.");
+		   	} else if(result == 20) {
+		   		JOptionPane.showMessageDialog(null, "Sorry, only Students can post comments");
+	   		} else if(result == 30) {
+	   			JOptionPane.showMessageDialog(null, "Course is not valid");
+		   	} else if(result == 40) {
+	   			JOptionPane.showMessageDialog(null, "Please choose a professor");
+		   	} else if(result == 50) {
+	   			JOptionPane.showMessageDialog(null, "Sorry, you didn't take this course and cannot comment it");
+		   	}
+		
+			return false;
+			
+//			if(!cs.execute()) {
+//				JOptionPane.showMessageDialog(null, "Add succeeded");
+//				//System.out.print(cs.getInt(1));
+//				return true;
+//			} else {
+//				JOptionPane.showMessageDialog(null, "Add failed");
+//				return false;
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

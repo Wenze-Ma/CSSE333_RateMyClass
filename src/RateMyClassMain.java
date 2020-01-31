@@ -59,8 +59,9 @@ public class RateMyClassMain {
 		postComment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panelForPost.setVisible(true);
+
 				chooseDepartment();
-				System.out.println(sizeForPanel);
 
 			}
 		});
@@ -89,7 +90,6 @@ public class RateMyClassMain {
 		confirmPost.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(UserLogIn.user + "  " + writtenComment.getText());
 				CommentService cs = new CommentService();
 				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user, courseSelected, "t7")) {
 					panelForPost.setVisible(false);
@@ -178,7 +178,6 @@ public class RateMyClassMain {
 	}
 	
 	public void chooseCourse() {
-		System.out.println(sizeForPanel);
 
 		CourseService cs = new CourseService();
 		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
