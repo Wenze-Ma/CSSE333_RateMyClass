@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		ConnectionService connS = new ConnectionService();
 		
-		if (connS.connect("maw1","Mawz18010412")) {
+		if (connS.connect("username","password")) {
 			Connection conn = connS.getConnection();
 			CommentService cs = new CommentService(connS);
 			ArrayList<ArrayList<String>> re = cs.getComment(2);
