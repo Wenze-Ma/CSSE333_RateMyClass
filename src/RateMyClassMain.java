@@ -60,6 +60,8 @@ public class RateMyClassMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				chooseDepartment();
+				System.out.println(sizeForPanel);
+
 			}
 		});
 		
@@ -144,11 +146,11 @@ public class RateMyClassMain {
 	
 	public ArrayList<ArrayList<String>> getComments() {
 		CommentService cs = new CommentService();
-		System.out.println(searchField.getText());
 		return cs.getComment(searchField.getText());
 	}
 	
 	public void chooseDepartment() {
+
 		panelForPost.removeAll();
 		DepartmentService ds = new DepartmentService();
 		ArrayList<String> departments = ds.getDepartments();
@@ -160,8 +162,12 @@ public class RateMyClassMain {
 				panelForPost.removeAll();
 				panelForPost.add(new JLabel("Choose a department: "));
 				panelForPost.add(departmentList, "wrap");
+				sizeForPanel = 2;
 				departmentSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
+				myFrame.add(panelForPost, BorderLayout.CENTER);
+				myFrame.setVisible(true);
 				chooseCourse();
+
 			}
 		});
 		panelForPost.add(new JLabel("Choose a department: "));
@@ -172,6 +178,8 @@ public class RateMyClassMain {
 	}
 	
 	public void chooseCourse() {
+		System.out.println(sizeForPanel);
+
 		CourseService cs = new CourseService();
 		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
 		JComboBox courseList = new JComboBox(parseArrayListToArray(courses));
@@ -188,6 +196,7 @@ public class RateMyClassMain {
 				sizeForPanel += 2;
 				courseSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
 				addComment();
+
 			}
 		});
 		
