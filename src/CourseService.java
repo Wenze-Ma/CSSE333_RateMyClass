@@ -1,9 +1,12 @@
 
 	import java.sql.CallableStatement;
-	import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 	import java.sql.Types;
+import java.util.ArrayList;
 
-	import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;
 	
 public class CourseService {
 
@@ -50,5 +53,23 @@ public class CourseService {
 			}
 		}
 	
+		public ArrayList<String> getCoursesByDepartment(String deptName) {
+			ArrayList<String> result = new ArrayList<>();
+			PreparedStatement ps = null;
+			String statement = "Select c.Number\n" + 
+							   "From Department d join course c on d.id = c.Dept\n" + 
+							   "where d.Name = '" + deptName + "'";
+			try {
+				ps = Main.connS.getConnection().prepareStatement(statement);
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+		            result.add(rs.getString("Number"));
+		        }
+				return result;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
 
 }

@@ -70,7 +70,6 @@ public class Register {
 				} else {
 					role = "t";
 				}
-				System.out.println(role);
 			}
 		});
         

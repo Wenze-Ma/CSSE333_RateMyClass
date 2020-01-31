@@ -15,6 +15,8 @@ public class UserLogIn {
 	private JFrame myFrame;
 	private JTextField usernameField;
 	private JTextField passwordField;
+	
+	public static String user = null;
 
 	
 	public UserLogIn() {
@@ -65,6 +67,7 @@ public class UserLogIn {
 	private void login() {
 		UserService us = new UserService(Main.connS);
 		if (us.login(usernameField.getText(), passwordField.getText())) {
+			user = usernameField.getText();
 			myFrame.setVisible(false);
 			myFrame.dispose();
 			new RateMyClassMain();
