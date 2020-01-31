@@ -1,4 +1,6 @@
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -70,14 +72,56 @@ public class CommentService {
 		}
 	}
 	
-//			[Date]
+//			[Date]	
 //		      ,[content]
 //		      ,[rate]
 //		      ,[CourseName]
 //		      ,[ProfessorName]
 	
-	public ArrayList<String, String, Integer, String, String> getComment(int course){
-		ArrayList<String, String, Integer, String, String> result = new ArrayList<String, String, Integer, String, String>();
-		
+	public ArrayList<ArrayList<String>> getComment(int course){
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		PreparedStatement ps = null;
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name]\r\n" + 
+				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
+				+ "where c.CourseID = ?";
+		try {
+			ps = this.dbService.getConnection().prepareStatement(statement);
+			ps.setInt(1, course);
+			
+			ResultSet rs = ps.executeQuery();
+			return parseResults(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private ArrayList<ArrayList<String>> parseResults(ResultSet rs) {
+		try {
+			ArrayList<ArrayList<String>> comment = new ArrayList<ArrayList<String>>();
+			int ContentIndex = rs.findColumn("Content");
+			int rateIndex = rs.findColumn("rate");
+			int dateIndex = rs.findColumn("Date");
+			int courseIndex = rs.findColumn("Course Name");
+			int ProfIndex = rs.findColumn("Professor Name");
+			while (rs.next()) {
+				ArrayList<String> re = new ArrayList<String>();
+				re.add(rs.getString(ContentIndex));
+				re.add(rs.getString(rateIndex));
+				re.add(rs.getString(dateIndex));
+				re.add(rs.getString(courseIndex));
+				re.add(rs.getString(ProfIndex));
+				
+				comment.add(re);
+			}
+			
+			return comment;
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null,
+					"An error ocurred while retrieving comments. See printed stack trace.");
+			ex.printStackTrace();
+			return new ArrayList<ArrayList<String>>();
+		}
+
 	}
 }
