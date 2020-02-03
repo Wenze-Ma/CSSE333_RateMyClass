@@ -22,6 +22,8 @@ public class RateMyClassMain {
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
 	JButton confirmPost = new JButton("Post");
+	JButton takeCourse = new JButton("Take course");
+	JPanel panelForCourseTaken = new JPanel();
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
 	private JTextField score = new JTextField("Score", 8);
