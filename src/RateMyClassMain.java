@@ -23,6 +23,7 @@ public class RateMyClassMain {
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
 	JPanel panelForCourse = new JPanel();
+//	JPanel courseDisplay = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
 	private JTextField searchField;
@@ -50,7 +51,6 @@ public class RateMyClassMain {
         
         
         //panel for course
-
     	JButton closeCourse = new JButton("Close");
     	JLabel courseLabel = new JLabel("Course Service     ");
     	JButton takeCourse = new JButton("Take Course");
@@ -67,6 +67,14 @@ public class RateMyClassMain {
 			}
 		});
         panelForCourse.add(takeCourse, 2);
+        takeCourse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+//      panelForCourse.add(courseDisplay);
 
 		
         
