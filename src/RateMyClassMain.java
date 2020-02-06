@@ -26,12 +26,19 @@ public class RateMyClassMain {
 	JPanel courseDisplay = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
+	
+	JButton displayAll = new JButton("Display");
+	JButton Filter = new JButton("Filter");
+	JButton closeDisplay = new JButton("Close");
+	
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
 	private JTextField score = new JTextField("Score", 8);
 	private JTextField comment = new JTextField("Comment", 8);
 	private JTextField author = new JTextField("Author", 8);
 	private JTextField date = new JTextField("Date", 8);
+	private JTextField ProfessorFilter = new JTextField("Professor", 8);
+	private JTextField scoreFilter = new JTextField("Score",8);
 
 	JTextArea writtenComment = new JTextArea(5,25);
 	String departmentSelected = null;
@@ -143,6 +150,24 @@ public class RateMyClassMain {
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.setVisible(true);
+		
+		//
+		//
+		//Panel For Filter (Not Finished)
+		//
+		//
+		//
+		JPanel panelForFilter = new JPanel();
+		panelForFilter.setLayout(new GridBagLayout());
+		panelForSearch.setSize(200, 300);		
+		JLabel scoreFilterLabel = new JLabel("Score Greater than: ");
+		panelForFilter.add(scoreFilterLabel);
+		JLabel professorFilterLabel = new JLabel("Professor: ");
+		panelForFilter.add(professorFilterLabel);
+		
+		searchField = new JTextField(40);
+		panelForSearch.add(searchField);
+		
 	}
 	
 
