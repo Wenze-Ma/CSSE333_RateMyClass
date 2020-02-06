@@ -23,7 +23,7 @@ public class RateMyClassMain {
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
 	JPanel panelForCourse = new JPanel();
-//	JPanel courseDisplay = new JPanel();
+	JPanel courseDisplay = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
 	private JTextField searchField;
@@ -67,14 +67,14 @@ public class RateMyClassMain {
 			}
 		});
         panelForCourse.add(takeCourse, 2);
-        takeCourse.addActionListener(new ActionListener() {
-			
+        takeCourse.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				courseDisplay.setVisible(true);
+				takeCourseDept();
 				
 			}
 		});
-//      panelForCourse.add(courseDisplay);
 
 		
         
@@ -92,7 +92,6 @@ public class RateMyClassMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelForPost.setVisible(true);
-
 				chooseDepartment();
 
 			}
@@ -148,6 +147,10 @@ public class RateMyClassMain {
 	
 
 
+	
+
+
+
 	public void displayComment() {
 		panelForDisplay.setLayout(new MigLayout());
 		courseName.setEditable(false);
@@ -194,7 +197,27 @@ public class RateMyClassMain {
 		CommentService cs = new CommentService();
 		return cs.getComment(searchField.getText());
 	}
+	public void takeCourseDept() {
+		// the selection process for course Service
+		courseDisplay.removeAll();
+		DepartmentService ds = new DepartmentService();
+		ArrayList<String> departments = ds.getDepartments();
+		JComboBox departmentList = new JComboBox(parseArrayListToArray(departments));
+		departmentList.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				courseDisplay.removeAll();
+				courseDisplay.add(new JLabel("Choose a department: "));
+				courseDisplay.add(departmentList, "wrap");
+				sizeForPanel = 2;
+				departmentSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
+				courseDisplay.setVisible(true);
+				panelForCourse.setVisible(true);
 
+			}
+		});
+		
+	}
 	public void chooseDepartment() {
 
 		panelForPost.removeAll();
