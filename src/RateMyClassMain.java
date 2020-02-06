@@ -33,7 +33,7 @@ public class RateMyClassMain {
 	
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
-	private JTextField score = new JTextField("Score", 8);
+	private JTextField score = new JTextField("Score", 4);
 	private JTextField comment = new JTextField("Comment", 8);
 	private JTextField author = new JTextField("Author", 8);
 	private JTextField date = new JTextField("Date", 8);
@@ -128,6 +128,7 @@ public class RateMyClassMain {
 			public void actionPerformed(ActionEvent e) {
 				panelForDisplay.setVisible(false);
 				postComment.setVisible(true);
+				panelForDisplay = new JPanel();
 			}
 		});
 		CourseService.addActionListener(new ActionListener() {
@@ -162,7 +163,18 @@ public class RateMyClassMain {
 				new UserLogIn();
 			}
 		});
+		
+		JButton profile = new JButton("My Account");
+		profile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myFrame.setVisible(false);
+				myFrame.dispose();
+				new Profile();
+			}
+		});
 		panelForSearch.add(logout);
+		panelForSearch.add(profile);
 		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
@@ -209,9 +221,13 @@ public class RateMyClassMain {
 		panelForDisplay.add(date, "wrap");
 		
 		ArrayList<ArrayList<String>> re = getComments();
+
 		
 		for(int i = 0; i < re.size(); i++) {
-			JTextField tempScore = new JTextField(re.get(i).get(1), 8);
+			String [] a = new String [] {"1", "2", "3", "4", "5"};
+			JComboBox tempScore = new JComboBox(a);
+			tempScore.setSelectedItem(re.get(i).get(1));
+			tempScore.setEnabled(false);
 			JTextField tempComment = new JTextField(re.get(i).get(0), 8);
 			JTextField tempAuthor = new JTextField(re.get(i).get(6), 8);
 			JTextField tempDate = new JTextField(re.get(i).get(2), 8);
@@ -219,7 +235,8 @@ public class RateMyClassMain {
 //			JTextArea tempComment = new JTextArea(re.get(i).get(0), 8, 3);
 //			JTextArea tempAuthor = new JTextArea(re.get(i).get(6), 8, 3);
 //			JTextArea tempDate = new JTextArea(re.get(i).get(2), 8, 3);
-			tempScore.setEditable(false);
+			
+			int commentID = Integer.parseInt(re.get(i).get(5));
 			tempComment.setEditable(false);
 			tempAuthor.setEditable(false);
 			tempDate.setEditable(false);
@@ -233,10 +250,40 @@ public class RateMyClassMain {
 			panelForDisplay.add(tempDate);
 			
 			if (UserLogIn.user.equals(tempAuthor.getText())) {
+				CommentService cs = new CommentService();
 				JButton edit = new JButton("Edit");
 				JButton delete = new JButton("Delete");
 				panelForDisplay.add(edit);
 				panelForDisplay.add(delete);
+				delete.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cs.deleteComment(UserLogIn.user, commentID);
+						panelForDisplay.setVisible(false);
+						postComment.setVisible(true);
+						panelForDisplay = new JPanel();
+						displayComment();
+					}
+				});
+				edit.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tempComment.setEditable(true);
+						tempScore.setEnabled(true);
+						edit.setText("Post");
+						edit.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								System.out.println(tempScore.getSelectedItem() + "      " + tempComment.getText()); 
+								cs.editComment(UserLogIn.user, commentID, tempComment.getText(), Integer.parseInt(tempScore.getSelectedItem().toString()));
+								panelForDisplay.setVisible(false);
+								postComment.setVisible(true);
+								panelForDisplay = new JPanel();
+								displayComment();
+							}
+						});
+					}
+				});
 			}
 			panelForDisplay.add(placeHolder,"wrap");
 

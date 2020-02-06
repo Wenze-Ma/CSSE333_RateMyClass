@@ -52,7 +52,7 @@ public class CommentService {
 		CallableStatement cs = null;
 		
 		try {
-			cs = Main.connS.getConnection().prepareCall("{call edit_Comment(?,?)}");
+			cs = Main.connS.getConnection().prepareCall("{call delete_comment(?,?)}");
 			
 			if(username == null || username.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Empty username not allow");
