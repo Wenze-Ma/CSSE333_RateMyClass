@@ -52,7 +52,8 @@ public class RateMyClassMain {
         //panel for course
 
     	JButton closeCourse = new JButton("Close");
-    	JLabel courseLabel = new JLabel("Course Service");
+    	JLabel courseLabel = new JLabel("Course Service     ");
+    	JButton takeCourse = new JButton("Take Course");
         panelForCourse.setVisible(false);
         panelForCourse.setLayout(new GridBagLayout());
         panelForCourse.setSize(200, 300);
@@ -65,6 +66,7 @@ public class RateMyClassMain {
 				panelForCourse.setVisible(false);
 			}
 		});
+        panelForCourse.add(takeCourse, 2);
 
 		
         
@@ -132,7 +134,7 @@ public class RateMyClassMain {
 		});
 		
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
-		myFrame.add(panelForCourse, BorderLayout.AFTER_LAST_LINE);
+		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.setVisible(true);
 	}
 	
