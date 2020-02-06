@@ -178,6 +178,84 @@ public class CommentService {
 		return result;
 	}
 	
+	public ArrayList<ArrayList<String>> getAllComment(){
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		PreparedStatement ps = null;
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName " + 
+				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID ";
+		try {
+			ps = Main.connS.getConnection().prepareStatement(statement);
+			
+			ResultSet rs = ps.executeQuery();
+			return parseResults(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<ArrayList<String>> getCommentByScoreOrDept(String score, String deptName){
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		PreparedStatement ps = null;
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName \r\n" + 
+				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID join \r\n" + 
+				"Department d on d.ID = c2.Dept ";
+		int actualScore = 0;
+		try {
+			if(score != null) {
+				try {
+					actualScore = Integer.valueOf(score);
+				} catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Illegal Score entered");
+					return null;
+				}
+				if(deptName != null) {
+					statement += "where c.score >= ? and d.Name = ?";
+					ps = Main.connS.getConnection().prepareStatement(statement);
+					ps.setInt(1, actualScore);
+					ps.setString(2, deptName);
+				} else {
+					statement += "where c.score >= ?";
+					ps = Main.connS.getConnection().prepareStatement(statement);
+					ps.setInt(1, actualScore);
+				}
+			} else {
+				if(deptName != null) {
+					statement += "where d.Name = ?";
+					ps = Main.connS.getConnection().prepareStatement(statement);
+					ps.setString(1, deptName);
+				} else {
+					ps = Main.connS.getConnection().prepareStatement(statement);
+				}
+			}
+			
+			
+			ResultSet rs = ps.executeQuery();
+			return parseResults(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<ArrayList<String>> getCommentbyProfessor(String professorName){
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		PreparedStatement ps = null;
+		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName " + 
+				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
+				+ "where u.Name = ?";
+		try {
+			ps = Main.connS.getConnection().prepareStatement(statement);
+			ps.setString(1, professorName);
+			
+			ResultSet rs = ps.executeQuery();
+			return parseResults(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	private ArrayList<ArrayList<String>> parseResults(ResultSet rs) {
 		try {
 			ArrayList<ArrayList<String>> comment = new ArrayList<ArrayList<String>>();
