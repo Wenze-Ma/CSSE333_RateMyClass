@@ -170,8 +170,8 @@ public class RateMyClassMain {
 		JLabel professorFilterLabel = new JLabel("Professor: ");
 		panelForFilter.add(professorFilterLabel);
 		
-		searchField = new JTextField(40);
-		panelForSearch.add(searchField);
+//		searchField = new JTextField(40);
+//		panelForSearch.add(searchField);
 		
 	}
 	
@@ -213,10 +213,21 @@ public class RateMyClassMain {
 			tempAuthor.setEditable(false);
 			tempDate.setEditable(false);
 			
+			JTextField placeHolder = new JTextField();
+			placeHolder.setVisible(false);
+			
 			panelForDisplay.add(tempScore, "skip, split4");
 			panelForDisplay.add(tempComment);
 			panelForDisplay.add(tempAuthor);
-			panelForDisplay.add(tempDate, "wrap");
+			panelForDisplay.add(tempDate);
+			
+			if (UserLogIn.user.equals(tempAuthor.getText())) {
+				JButton edit = new JButton("Edit");
+				JButton delete = new JButton("Delete");
+				panelForDisplay.add(edit);
+				panelForDisplay.add(delete);
+			}
+			panelForDisplay.add(placeHolder,"wrap");
 
 		}
 		myFrame.add(panelForDisplay, BorderLayout.CENTER);
