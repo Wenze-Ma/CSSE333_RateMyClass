@@ -142,7 +142,7 @@ public class RateMyClassMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CommentService cs = new CommentService();
-				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user, courseSelected, "t7")) {
+				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user, courseSelected, "1")) {
 					panelForPost.setVisible(false);
 				}
 			}
