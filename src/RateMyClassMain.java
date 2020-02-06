@@ -152,6 +152,17 @@ public class RateMyClassMain {
 				}
 			}
 		});
+		
+		JButton logout = new JButton("Log Out");
+		logout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myFrame.setVisible(false);
+				myFrame.dispose();
+				new UserLogIn();
+			}
+		});
+		panelForSearch.add(logout);
 		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
