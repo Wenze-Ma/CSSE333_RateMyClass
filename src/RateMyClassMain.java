@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
 import javafx.scene.layout.Border;
 import net.miginfocom.swing.MigLayout;
 
@@ -21,9 +22,9 @@ public class RateMyClassMain {
 	JButton closeSearching = new JButton("Close");
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
+	JPanel panelForCourse = new JPanel();
 	JButton confirmPost = new JButton("Post");
-	JButton takeCourse = new JButton("Take course");
-	JPanel panelForCourseTaken = new JPanel();
+	JButton CourseService = new JButton("Course");
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
 	private JTextField score = new JTextField("Score", 8);
@@ -45,13 +46,32 @@ public class RateMyClassMain {
 		myFrame.setTitle("Rate My Class");
 	    myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         panelForPost.setLayout(new MigLayout());
+        
+        
+        //panel for course
+
+    	JButton closeCourse = new JButton("Close");
+    	JLabel courseLabel = new JLabel("Course Service");
+        panelForCourse.setVisible(false);
+        panelForCourse.setLayout(new GridBagLayout());
+        panelForCourse.setSize(200, 300);
+        panelForCourse.add(courseLabel);
+        panelForCourse.add(closeCourse);
+        closeCourse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panelForCourse.setVisible(false);
+			}
+		});
+
 		
-		JPanel panelForSearch = new JPanel();
+        
+        //Panel for Search
+        JPanel panelForSearch = new JPanel();
 		panelForSearch.setLayout(new GridBagLayout());
-		panelForSearch.setSize(200, 300);
-		
+		panelForSearch.setSize(200, 300);		
 		JLabel searchLabel = new JLabel("Class Search: ");
 		panelForSearch.add(searchLabel);
 		
@@ -71,7 +91,7 @@ public class RateMyClassMain {
 		JButton searchButton = new JButton("Submit");
 		panelForSearch.add(searchButton);
 		panelForSearch.add(postComment);
-		
+		panelForSearch.add(CourseService);
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -88,6 +108,18 @@ public class RateMyClassMain {
 				postComment.setVisible(true);
 			}
 		});
+		CourseService.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(panelForCourse.isVisible()) {
+					panelForCourse.setVisible(false);
+				}else {
+					panelForCourse.setVisible(true);
+				}				
+			}
+		});
 		
 		confirmPost.addActionListener(new ActionListener() {	
 			@Override
@@ -100,10 +132,12 @@ public class RateMyClassMain {
 		});
 		
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
-		
+		myFrame.add(panelForCourse, BorderLayout.AFTER_LAST_LINE);
 		myFrame.setVisible(true);
 	}
 	
+
+
 	public void displayComment() {
 		panelForDisplay.setLayout(new MigLayout());
 		courseName.setEditable(false);
@@ -150,7 +184,7 @@ public class RateMyClassMain {
 		CommentService cs = new CommentService();
 		return cs.getComment(searchField.getText());
 	}
-	
+
 	public void chooseDepartment() {
 
 		panelForPost.removeAll();
