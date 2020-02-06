@@ -23,7 +23,7 @@ public class RateMyClassMain {
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
 	JPanel panelForCourse = new JPanel();
-	JPanel courseDisplay = new JPanel();
+	JPanel courseToTake = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
 	
@@ -55,6 +55,7 @@ public class RateMyClassMain {
 	    myFrame.setLocationRelativeTo(null);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panelForPost.setLayout(new MigLayout());
+        courseToTake.setLayout(new MigLayout());
         
         
         //panel for course
@@ -71,15 +72,20 @@ public class RateMyClassMain {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				panelForCourse.setVisible(false);
+				courseToTake.setVisible(false);
 			}
 		});
         panelForCourse.add(takeCourse, 2);
         takeCourse.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				courseDisplay.setVisible(true);
-				takeCourseDept();
-				
+				if(courseToTake.isVisible()) {
+					courseToTake.removeAll();
+					courseToTake.setVisible(false);
+				}else {
+					courseToTake.setVisible(true);
+					takeCourseDept();
+				}
 			}
 		});
 
@@ -125,12 +131,12 @@ public class RateMyClassMain {
 			}
 		});
 		CourseService.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(panelForCourse.isVisible()) {
 					panelForCourse.setVisible(false);
+					courseToTake.setVisible(false);
 				}else {
 					panelForCourse.setVisible(true);
 				}				
@@ -146,9 +152,8 @@ public class RateMyClassMain {
 				}
 			}
 		});
-		
-		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.add(panelForCourse, BorderLayout.SOUTH);
+		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
 		
 		//
@@ -224,25 +229,58 @@ public class RateMyClassMain {
 	}
 	public void takeCourseDept() {
 		// the selection process for course Service
-		courseDisplay.removeAll();
+		courseToTake.removeAll();
 		DepartmentService ds = new DepartmentService();
 		ArrayList<String> departments = ds.getDepartments();
 		JComboBox departmentList = new JComboBox(parseArrayListToArray(departments));
 		departmentList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				courseDisplay.removeAll();
-				courseDisplay.add(new JLabel("Choose a department: "));
-				courseDisplay.add(departmentList, "wrap");
+				courseToTake.removeAll();
+				courseToTake.add(new JLabel("Choose a department: "));
+				courseToTake.add(departmentList, "wrap");
 				sizeForPanel = 2;
 				departmentSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
-				courseDisplay.setVisible(true);
-				panelForCourse.setVisible(true);
-
+				myFrame.add(courseToTake, BorderLayout.CENTER);
+				myFrame.setVisible(true);
+				chooseCourseToTake();
+			}
+		});
+			courseToTake.add(new JLabel("Choose a department: "));
+			courseToTake.add(departmentList,"wrap");
+			sizeForPanel += 2;
+			myFrame.add(courseToTake, BorderLayout.CENTER);
+			myFrame.setVisible(true);
+	}
+	protected void chooseCourseToTake() {
+		CourseService cs = new CourseService();
+		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
+		JComboBox courseList = new JComboBox(parseArrayListToArray(courses));
+		courseList.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = sizeForPanel - 1; i > 1; i--){
+					courseToTake.remove(i);
+					sizeForPanel--;
+				}
+				courseToTake.add(new JLabel("Choose a course: "));
+				courseToTake.add(courseList, "wrap");
+				sizeForPanel += 2;
+				courseSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
 			}
 		});
 		
+		courseToTake.add(new JLabel("Choose a course: "));
+		courseToTake.add(courseList, "wrap");
+		sizeForPanel += 2;
+		myFrame.add(courseToTake, BorderLayout.CENTER);
+		myFrame.setVisible(true);
 	}
+		
+
+
+
+
 	public void chooseDepartment() {
 
 		panelForPost.removeAll();
