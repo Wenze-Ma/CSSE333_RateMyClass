@@ -123,16 +123,16 @@ public class CoursePage {
 		
 		courseToTake.add(new JLabel("Choose a course: "));
 		courseToTake.add(courseList, "wrap");
-		JButton print = new JButton("print");
-		print.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(courseIDSelected);
-				
-			}
-		});
-		courseToTake.add(print);
+//		JButton print = new JButton("print");
+//		print.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.out.println(courseIDSelected);
+//				
+//			}
+//		});
+//		courseToTake.add(print);
 		courseToTake.add(confirmCourse);
 		sizeForPanel += 2;
 		myFrame.add(courseToTake, BorderLayout.CENTER);

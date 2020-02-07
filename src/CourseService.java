@@ -50,7 +50,7 @@ public class CourseService {
 					JOptionPane.showMessageDialog(null, "invalid Student Username");
 				}else if(result == 30){
 					JOptionPane.showMessageDialog(null, "invalid CourseID");
-				}else if(result == 50){
+				}else if(result == 40){
 					JOptionPane.showMessageDialog(null, "You have already selected this course!");
 				}
 				return false;
@@ -80,7 +80,7 @@ public class CourseService {
 	
 		public ArrayList<String> getCoursesByDepartment(String deptName) {
 			ArrayList<String> result = new ArrayList<>();
-			result.add("NULL");
+			result.add("----");
 			PreparedStatement ps = null;
 			String statement = "Select c.Number\n" + 
 							   "From Department d join course c on d.id = c.Dept\n" + 
