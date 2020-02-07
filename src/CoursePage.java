@@ -31,36 +31,39 @@ public class CoursePage {
         setup();    
 	}
 	private void setup() {
-		// TODO Auto-generated method stub
 		courseToTake.setLayout(new MigLayout());
+		
     	JButton closeCourse = new JButton("Close");
     	JLabel courseLabel = new JLabel("Course Service     ");
     	JButton takeCourse = new JButton("Take Course");
+    	
         panelForCourse.setVisible(false);
         panelForCourse.setLayout(new GridBagLayout());
         panelForCourse.setSize(200, 300);
+        
         panelForCourse.add(courseLabel);
         panelForCourse.add(closeCourse);
         panelForCourse.add(takeCourse);
+        
         courseToTake.setVisible(false);
+        
         closeCourse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				myFrame.setVisible(false);
 				myFrame.dispose();
 				new RateMyClassMain();	
 			}
 		});
+        
         confirmCourse.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				CourseService cs = new CourseService();
 				cs.addTakeCourse(UserLogIn.user, courseIDSelected);
 			}
 		});
+        
         takeCourse.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -73,10 +76,12 @@ public class CoursePage {
 				}
 			}
 		});
+        
         myFrame.add(panelForCourse,BorderLayout.NORTH);
         panelForCourse.setVisible(true);
         myFrame.setVisible(true);
 	}
+	
 	public void takeCourseDept() {
 		// the selection process for course Service
 		courseToTake.removeAll();

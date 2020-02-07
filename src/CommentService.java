@@ -138,15 +138,6 @@ public class CommentService {
 			}
 
 			return false;
-
-//			if(!cs.execute()) {
-//				JOptionPane.showMessageDialog(null, "Add succeeded");
-//				//System.out.print(cs.getInt(1));
-//				return true;
-//			} else {
-//				JOptionPane.showMessageDialog(null, "Add failed");
-//				return false;
-//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

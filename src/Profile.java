@@ -20,7 +20,7 @@ public class Profile {
 	
 	public Profile() {
 		myFrame = new JFrame();
-		myFrame.setSize(400, 150);
+		myFrame.setSize(400, 180);
 	    myFrame.setLocationRelativeTo(null);
 		myFrame.setTitle("My Profile");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,6 +33,7 @@ public class Profile {
 		
 		JLabel username = new JLabel("Username: ");
 		JLabel nickName = new JLabel("Name: ");
+		JLabel major = new JLabel("Major: ");
 		JLabel email = new JLabel("Email");
 		JLabel role = new JLabel("Role: ");
 		
@@ -40,17 +41,21 @@ public class Profile {
 		JLabel nickNameResult = new JLabel();
 		JLabel emailResult = new JLabel();
 		JLabel roleResult = new JLabel();
+		JLabel majorResult = new JLabel();
 		
 		ArrayList<String> result = getInfo();
 		usernameResult.setText(result.get(0));
 		nickNameResult.setText(result.get(1));
 		emailResult.setText(result.get(2));
 		roleResult.setText(result.get(3));
+		majorResult.setText(formattedMajors());
 		
 		panelContent.add(username);
 		panelContent.add(usernameResult, "wrap");
 		panelContent.add(nickName);
 		panelContent.add(nickNameResult, "wrap");
+		panelContent.add(major);
+		panelContent.add(majorResult, "wrap");
 		panelContent.add(email);
 		panelContent.add(emailResult, "wrap");
 		panelContent.add(role);
@@ -103,5 +108,36 @@ public class Profile {
 			e.printStackTrace();
 		}
 		return arr;
+	}
+	
+	private ArrayList<String> getMajors() {
+		ArrayList<String> arr = new ArrayList<>();
+		PreparedStatement ps = null;
+		String statement = "Select Name\n" + 
+					       "from [Majors In] join Major on [Major ID] = ID\n" + 
+					       "Where [Student Username] = '" + UserLogIn.user + "'";
+		
+		try {
+			ps = Main.connS.getConnection().prepareStatement(statement);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				arr.add(rs.getString(rs.findColumn("Name")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
+	private String formattedMajors() {
+		String s = "";
+		ArrayList<String> arr = getMajors();
+		for (int i = 0; i < arr.size(); i++) {
+			s += arr.get(i);
+			if (i < arr.size() - 1) {
+				s += ", ";
+			}
+		}
+		return s;
 	}
 }

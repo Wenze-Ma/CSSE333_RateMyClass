@@ -18,7 +18,6 @@ public class Main {
 	public static void main(String[] args) {
 		
 	if (connS.connect("RMC20","Password123")) {
-			Connection conn = connS.getConnection();
 			CommentService cs = new CommentService();
 			ArrayList<ArrayList<String>> re = cs.getComment("course1", "");
 			for(int i = 0; i < re.size(); i++) {
