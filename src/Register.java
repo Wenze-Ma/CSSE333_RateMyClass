@@ -96,6 +96,7 @@ public class Register {
 	private void register() {
 		UserService us = new UserService(Main.connS);
 		if (us.register(usernameField.getText(), passwordField.getText(), role, emailField.getText(), nameField.getText())) {
+			UserLogIn.user = usernameField.getText();
 			myFrame.setVisible(false);
 			myFrame.dispose();
 			new RateMyClassMain();
