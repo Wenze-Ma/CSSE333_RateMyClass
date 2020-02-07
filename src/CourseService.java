@@ -97,5 +97,24 @@ public class CourseService {
 			}
 			return result;
 		}
+		public ArrayList<String> getCoursesTakenByStudent(String username) {
+			ArrayList<String> result = new ArrayList<>();
+			PreparedStatement ps = null;
+			String statement = "Select c.Number\n" + 
+							   "From Student s join Takes t r on s.Username = t.StudentUsername\n"
+							   + "Join Course c on c.ID = t.CourseID" + 
+							   "where s. = '" + username + "'";
+			try {
+				ps = Main.connS.getConnection().prepareStatement(statement);
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+		            result.add(rs.getString("Number"));
+		        }
+				return result;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
 
 }
