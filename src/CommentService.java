@@ -178,23 +178,7 @@ public class CommentService {
 		return result;
 	}
 	
-	public ArrayList<ArrayList<String>> getAllComment(){
-		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
-		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName " + 
-				"from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID ";
-		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			
-			ResultSet rs = ps.executeQuery();
-			return parseResults(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public ArrayList<ArrayList<String>> getCommentByScoreOrDept(String score, String deptName){
+	public ArrayList<ArrayList<String>> getCommentByScoreOrDept(String score, String deptName, String CourseName){
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
 		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName \r\n" + 
@@ -202,30 +186,35 @@ public class CommentService {
 				"Department d on d.ID = c2.Dept ";
 		int actualScore = 0;
 		try {
-			if(score != null) {
+			if(score != null && !score.isEmpty()) {
 				try {
 					actualScore = Integer.valueOf(score);
 				} catch(NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Illegal Score entered");
 					return null;
 				}
-				if(deptName != null) {
-					statement += "where c.score >= ? and d.Name = ?";
+				if(deptName != null && !deptName.isEmpty()) {
+					statement += "where c.rate >= ? and d.Name = ? and c2.Name = ?";
 					ps = Main.connS.getConnection().prepareStatement(statement);
 					ps.setInt(1, actualScore);
 					ps.setString(2, deptName);
+					ps.setString(3, CourseName);
 				} else {
-					statement += "where c.score >= ?";
+					statement += "where c.rate >= ? and c2.Name = ?";
 					ps = Main.connS.getConnection().prepareStatement(statement);
 					ps.setInt(1, actualScore);
+					ps.setString(2, CourseName);
 				}
 			} else {
 				if(deptName != null) {
-					statement += "where d.Name = ?";
+					statement += "where d.Name = ? and c2.name = ?";
 					ps = Main.connS.getConnection().prepareStatement(statement);
 					ps.setString(1, deptName);
+					ps.setString(2, CourseName);
 				} else {
+					statement += "where c2.Name = ?";
 					ps = Main.connS.getConnection().prepareStatement(statement);
+					ps.setString(1, CourseName);
 				}
 			}
 			

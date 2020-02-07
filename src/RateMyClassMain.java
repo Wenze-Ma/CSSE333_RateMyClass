@@ -27,9 +27,7 @@ public class RateMyClassMain {
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
 	
-	JButton displayAll = new JButton("Display");
 	JButton Filter = new JButton("Filter");
-	JButton closeDisplay = new JButton("Close");
 	
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
@@ -37,8 +35,8 @@ public class RateMyClassMain {
 	private JTextField comment = new JTextField("Comment", 8);
 	private JTextField author = new JTextField("Author", 8);
 	private JTextField date = new JTextField("Date", 8);
-	private JTextField ProfessorFilter = new JTextField("Professor", 8);
-	private JTextField scoreFilter = new JTextField("Score",8);
+	private JTextField deptFilter = new JTextField(8);
+	private JTextField scoreFilter = new JTextField(8);
 
 	JTextArea writtenComment = new JTextArea(5,25);
 	String departmentSelected = null;
@@ -46,7 +44,7 @@ public class RateMyClassMain {
 	String scoreSelecetd = "1";
 	
 	private int sizeForPanel = 0;
-	
+	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
 	
 	public RateMyClassMain() {
 		this.myFrame = new JFrame();
@@ -61,12 +59,17 @@ public class RateMyClassMain {
         //panel for course
     	JButton closeCourse = new JButton("Close");
     	JLabel courseLabel = new JLabel("Course Service     ");
+    	
+    	
     	JButton takeCourse = new JButton("Take Course");
+    	
         panelForCourse.setVisible(false);
         panelForCourse.setLayout(new GridBagLayout());
         panelForCourse.setSize(200, 300);
         panelForCourse.add(courseLabel);
         panelForCourse.add(closeCourse);
+        
+        
         closeCourse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -179,32 +182,11 @@ public class RateMyClassMain {
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
 		
-		//
-		//
-		//Panel For Filter (Not Finished)
-		//
-		//
-		//
-		JPanel panelForFilter = new JPanel();
-		panelForFilter.setLayout(new GridBagLayout());
-		panelForSearch.setSize(200, 300);		
-		JLabel scoreFilterLabel = new JLabel("Score Greater than: ");
-		panelForFilter.add(scoreFilterLabel);
-		JLabel professorFilterLabel = new JLabel("Professor: ");
-		panelForFilter.add(professorFilterLabel);
-		
-//		searchField = new JTextField(40);
-//		panelForSearch.add(searchField);
 		
 	}
 	
-
-
 	
-
-
-
-	public void displayComment() {
+	public void initPanelDisplay() {
 		panelForDisplay.setLayout(new MigLayout());
 		courseName.setEditable(false);
 		score.setEditable(false);
@@ -212,16 +194,49 @@ public class RateMyClassMain {
 		author.setEditable(false);
 		date.setEditable(false);
 		courseName.setText(searchField.getText());
+		JLabel deptLabel = new JLabel("Department     ");
+    	JLabel scoreLabel = new JLabel("Score Greater than     ");
 		panelForDisplay.add(new JLabel("Course Name:"));
 		panelForDisplay.add(courseName);
+		panelForDisplay.add(deptLabel);
+		panelForDisplay.add(deptFilter);
+		panelForDisplay.add(scoreLabel);
+		panelForDisplay.add(scoreFilter);
+        panelForDisplay.add(Filter);
 		panelForDisplay.add(closeSearching, "wrap");
 		panelForDisplay.add(score, "skip, split4");
 		panelForDisplay.add(comment);
 		panelForDisplay.add(author);
 		panelForDisplay.add(date, "wrap");
-		
-		ArrayList<ArrayList<String>> re = getComments();
+	}
 
+
+	public void displayComment() {
+		initPanelDisplay();
+		
+		this.re = getComments();
+		
+        Filter.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panelForDisplay.setVisible(false);
+				panelForDisplay = new JPanel();
+				panelForDisplay.setVisible(true);
+				initPanelDisplay();
+				re = filterComments();
+				printRe();
+			}
+        	
+        });
+		
+		
+        printRe();
+		
+		
+	}
+	
+	public void printRe() {
 		
 		for(int i = 0; i < re.size(); i++) {
 			String [] a = new String [] {"1", "2", "3", "4", "5"};
@@ -290,8 +305,18 @@ public class RateMyClassMain {
 		}
 		myFrame.add(panelForDisplay, BorderLayout.CENTER);
 		myFrame.setVisible(true);
+		
 	}
 	
+	protected ArrayList<ArrayList<String>> filterComments() {
+		CommentService cs = new CommentService();
+		return cs.getCommentByScoreOrDept(scoreFilter.getText(), deptFilter.getText(), searchField.getText());
+	}
+
+
+
+
+
 	public ArrayList<ArrayList<String>> getComments() {
 		CommentService cs = new CommentService();
 		return cs.getComment(searchField.getText());
