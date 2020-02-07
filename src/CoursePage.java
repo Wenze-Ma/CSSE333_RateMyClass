@@ -60,7 +60,10 @@ public class CoursePage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CourseService cs = new CourseService();
-				cs.addTakeCourse(UserLogIn.user, courseIDSelected);
+				boolean tf = cs.addTakeCourse(UserLogIn.user, courseIDSelected);
+				if(tf) {
+					courseToTake.setVisible(false);
+				}
 			}
 		});
         
@@ -112,12 +115,11 @@ public class CoursePage {
 		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
 		JComboBox courseList = new JComboBox(parseArrayListToArray(courses));
 		courseList.addActionListener(new ActionListener() {
+			
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (int i = sizeForPanel - 1; i > 1; i--){
-					courseToTake.remove(i);
-					sizeForPanel--;
-				}
+
 				courseToTake.add(new JLabel("Choose a course: "));
 				courseToTake.add(courseList, "wrap");
 				sizeForPanel += 2;
