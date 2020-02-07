@@ -26,11 +26,8 @@ public class RateMyClassMain {
 	JButton closeSearching = new JButton("Close");
 	JButton postComment = new JButton("Post a new comment");
 	JPanel panelForPost = new JPanel();
-//	JPanel panelForCourse = new JPanel();
-//	JPanel courseToTake = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
-//	JButton confirmCourse = new JButton("Take");
 	JButton Filter = new JButton("Filter");
 
 	private JTextField searchField;
@@ -59,47 +56,7 @@ public class RateMyClassMain {
 		myFrame.setLocationRelativeTo(null);
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panelForPost.setLayout(new MigLayout());
-		// panel for course
-//        courseToTake.setLayout(new MigLayout());
-//    	JButton closeCourse = new JButton("Close");
-//    	JLabel courseLabel = new JLabel("Course Service     ");
-//    	JButton takeCourse = new JButton("Take Course");
-//        panelForCourse.setVisible(false);
-//        panelForCourse.setLayout(new GridBagLayout());
-//        panelForCourse.setSize(200, 300);
-//        panelForCourse.add(courseLabel);
-//        panelForCourse.add(closeCourse);
-//        closeCourse.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				panelForCourse.setVisible(false);
-//				courseToTake.setVisible(false);
-//			}
-//		});
-//        panelForCourse.add(takeCourse, 2);
-//        takeCourse.addActionListener(new ActionListener() {	
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(courseToTake.isVisible()) {
-//					courseToTake.removeAll();
-//					courseToTake.setVisible(false);
-//				}else {
-//					courseToTake.setVisible(true);
-//					takeCourseDept();
-//				}
-//			}
-//		});
-//        confirmCourse.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				CourseService cs = new CourseService();
-//				cs.addTakeCourse(UserLogIn.user, courseIDSelected);
-//			}
-//		});
-//
+
 
 		// Panel for Search
 		JPanel panelForSearch = new JPanel();
@@ -163,7 +120,6 @@ public class RateMyClassMain {
 		CourseService.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				myFrame.setVisible(false);
 				myFrame.dispose();
 				new CoursePage();
@@ -209,7 +165,6 @@ public class RateMyClassMain {
 		c.gridx = 7;
 		c.gridy = 0;
 		panelForSearch.add(profile,c);
-		// panelForSearch.setLayout(new FlowLayout());
 		panelForSearch.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -220,7 +175,6 @@ public class RateMyClassMain {
 		c.gridy = 1;
 		panelForSearch.add(professorSearch,c);
 
-//		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
 
@@ -283,10 +237,6 @@ public class RateMyClassMain {
 			JTextField tempComment = new JTextField(re.get(i).get(0), 8);
 			JTextField tempAuthor = new JTextField(re.get(i).get(6), 8);
 			JTextField tempDate = new JTextField(re.get(i).get(2), 8);
-//			JTextArea tempScore = new JTextArea(re.get(i).get(1), 8, 3);
-//			JTextArea tempComment = new JTextArea(re.get(i).get(0), 8, 3);
-//			JTextArea tempAuthor = new JTextArea(re.get(i).get(6), 8, 3);
-//			JTextArea tempDate = new JTextArea(re.get(i).get(2), 8, 3);
 
 			int commentID = Integer.parseInt(re.get(i).get(5));
 			tempComment.setEditable(false);
@@ -326,7 +276,6 @@ public class RateMyClassMain {
 						edit.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								System.out.println(tempScore.getSelectedItem() + "      " + tempComment.getText());
 								cs.editComment(UserLogIn.user, commentID, tempComment.getText(),
 										Integer.parseInt(tempScore.getSelectedItem().toString()));
 								panelForDisplay.setVisible(false);
@@ -355,69 +304,7 @@ public class RateMyClassMain {
 	public ArrayList<ArrayList<String>> getComments() {
 		CommentService cs = new CommentService();
 		return cs.getComment(searchField.getText(), professorSearch.getText());
-	}
-//	public void takeCourseDept() {
-//		// the selection process for course Service
-//		courseToTake.removeAll();
-//		DepartmentService ds = new DepartmentService();
-//		ArrayList<String> departments = ds.getDepartments();
-//		JComboBox departmentList = new JComboBox(parseArrayListToArray(departments));
-//		departmentList.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				courseToTake.removeAll();
-//				courseToTake.add(new JLabel("Choose a department: "));
-//				courseToTake.add(departmentList, "wrap");
-//				sizeForPanel = 2;
-//				departmentSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
-//				myFrame.add(courseToTake, BorderLayout.CENTER);
-//				myFrame.setVisible(true);
-//				chooseCourseToTake();
-//			}
-//		});
-//			courseToTake.add(new JLabel("Choose a department: "));
-//			courseToTake.add(departmentList,"wrap");
-//			sizeForPanel += 2;
-//			myFrame.add(courseToTake, BorderLayout.CENTER);
-//			myFrame.setVisible(true);
-//	}
-//	protected void chooseCourseToTake() {
-//		CourseService cs = new CourseService();
-//		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
-//		JComboBox courseList = new JComboBox(parseArrayListToArray(courses));
-//		courseList.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				for (int i = sizeForPanel - 1; i > 1; i--){
-//					courseToTake.remove(i);
-//					sizeForPanel--;
-//				}
-//				courseToTake.add(new JLabel("Choose a course: "));
-//				courseToTake.add(courseList, "wrap");
-//				sizeForPanel += 2;
-//				courseSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
-//				courseIDSelected = cs.getCourseIDByNumber(courseSelected);
-//			}
-//		});
-//		
-//		courseToTake.add(new JLabel("Choose a course: "));
-//		courseToTake.add(courseList, "wrap");
-//		JButton print = new JButton("print");
-//		print.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println(courseIDSelected);
-//				
-//			}
-//		});
-//		courseToTake.add(print);
-//		courseToTake.add(confirmCourse);
-//		sizeForPanel += 2;
-//		myFrame.add(courseToTake, BorderLayout.CENTER);
-//		myFrame.setVisible(true);
-//	}
-//		
+	}	
 
 	public void chooseDepartment() {
 

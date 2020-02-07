@@ -1,4 +1,3 @@
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,7 +32,7 @@ public class UserLogIn {
         JLabel passwordLabel = new JLabel("Password: ");
         usernameField = new JTextField(20);
     	passwordField = new JTextField(20);
-    	JButton submit = new JButton("Submit");
+    	JButton submit = new JButton("Log in");
     	JButton register = new JButton("I'm a new user");
     	
         panel.add(usernameLabel);
@@ -51,7 +50,6 @@ public class UserLogIn {
 		});
         
         register.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				myFrame.setVisible(false);
@@ -72,7 +70,6 @@ public class UserLogIn {
 			myFrame.dispose();
 			new RateMyClassMain();
 		}
-
-	}
+	}	
 	
 }

@@ -15,11 +15,10 @@ public class Register {
 	private JTextField usernameField;
 	private JTextField passwordField;
 	private JTextField nameField;
-	private JTextField roleField;
 	private JTextField emailField;
 	
 	private String[] roleStrings = {"Student", "Professor"};
-	private JComboBox cmbMessageList = new JComboBox(roleStrings);
+	private JComboBox roleField = new JComboBox(roleStrings);
 	
 	private String role = "s";
 
@@ -43,7 +42,6 @@ public class Register {
         usernameField = new JTextField(20);
     	passwordField = new JTextField(20);
     	nameField = new JTextField(20);
-    	roleField = new JTextField(20);
     	emailField = new JTextField(20);
 
     	JButton submit = new JButton("Submit");
@@ -56,13 +54,13 @@ public class Register {
         panel.add(nameLabel);
         panel.add(nameField, "wrap");
         panel.add(roleLabel);
-        panel.add(cmbMessageList, "wrap");
+        panel.add(roleField, "wrap");
         panel.add(emailLabel);
         panel.add(emailField, "wrap");
         panel.add(back, "skip, split2");
         panel.add(submit);
         
-        cmbMessageList.addActionListener(new ActionListener() {
+        roleField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if ((((JComboBox) e.getSource()).getSelectedItem().toString()).equals("Student")) {
