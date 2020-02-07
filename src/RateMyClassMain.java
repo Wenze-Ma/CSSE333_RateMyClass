@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import javafx.scene.layout.Border;
+import javafx.scene.text.Font;
 import net.miginfocom.swing.MigLayout;
 
 public class RateMyClassMain {
