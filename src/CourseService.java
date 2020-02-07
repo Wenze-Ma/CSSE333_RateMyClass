@@ -23,7 +23,7 @@ public class CourseService {
 			CallableStatement cs = null;
 			
 			try {
-				cs = Main.connS.getConnection().prepareCall("{call take_Course(?, ?)}");
+				cs = Main.connS.getConnection().prepareCall("{? = call take_Course(?, ?)}");
 				
 				if(username == null || username.isEmpty()) {
 					//print somethin to JFrame
@@ -34,22 +34,53 @@ public class CourseService {
 					JOptionPane.showMessageDialog(null,"Illegal course id not allow");
 					return false;
 				} 
+				cs.registerOutParameter(1, Types.INTEGER);
+				cs.setString(2, username);
+				cs.setInt(3, course);
+				cs.execute();
+				int result = cs.getInt(1);
+				System.out.println(result);
 				
-				cs.setString(1, username);
-				cs.setInt(2, course);
-				
-				if(!cs.execute()) {
+				if(result == 0) {
 					JOptionPane.showMessageDialog(null, "Add succeeded");
 					//System.out.print(cs.getInt(1));
 					return true;
-				} else {
-					JOptionPane.showMessageDialog(null, "Add failed");
+				} else if(result == 10){
+					JOptionPane.showMessageDialog(null, "Empty input");
+					return false;
+				}else if(result == 20){
+					JOptionPane.showMessageDialog(null, "invalid Student Username");
+					return false;
+				}else if(result == 30){
+					JOptionPane.showMessageDialog(null, "invalid CourseID");
+					return false;
+				}else if(result == 50){
+					JOptionPane.showMessageDialog(null, "You have already selected this course!");
 					return false;
 				}
+				return false;
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return false;
 			}
+		}
+		public int getCourseIDByNumber(String CNumber) {
+			int result = 0;
+			PreparedStatement ps = null;
+			String statement = "Select c.ID\n"
+					+ "From Course c\n"
+					+ "where c.Number = '" + CNumber + "'";
+			try {
+				ps = Main.connS.getConnection().prepareStatement(statement);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+		            result = rs.getInt("ID");
+		        }
+				return result;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
 		}
 	
 		public ArrayList<String> getCoursesByDepartment(String deptName) {

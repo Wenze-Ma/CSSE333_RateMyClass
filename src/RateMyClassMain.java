@@ -26,7 +26,7 @@ public class RateMyClassMain {
 	JPanel courseToTake = new JPanel();
 	JButton confirmPost = new JButton("Post");
 	JButton CourseService = new JButton("Course");
-	
+	JButton confirmCourse = new JButton("Take");
 	JButton Filter = new JButton("Filter");
 	
 	private JTextField searchField;
@@ -37,11 +37,11 @@ public class RateMyClassMain {
 	private JTextField date = new JTextField("Date", 8);
 	private JTextField deptFilter = new JTextField(8);
 	private JTextField scoreFilter = new JTextField(8);
-
 	JTextArea writtenComment = new JTextArea(5,25);
 	String departmentSelected = null;
 	String courseSelected = null;
 	String scoreSelecetd = "1";
+	int courseIDSelected = 0;
 	
 	private int sizeForPanel = 0;
 	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
@@ -89,6 +89,15 @@ public class RateMyClassMain {
 					courseToTake.setVisible(true);
 					takeCourseDept();
 				}
+			}
+		});
+        confirmCourse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				CourseService cs = new CourseService();
+				cs.addTakeCourse(UserLogIn.user, courseIDSelected);
 			}
 		});
 
@@ -361,11 +370,23 @@ public class RateMyClassMain {
 				courseToTake.add(courseList, "wrap");
 				sizeForPanel += 2;
 				courseSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
+				courseIDSelected = cs.getCourseIDByNumber(courseSelected);
 			}
 		});
 		
 		courseToTake.add(new JLabel("Choose a course: "));
 		courseToTake.add(courseList, "wrap");
+		JButton print = new JButton("print");
+		print.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(courseIDSelected);
+				
+			}
+		});
+		courseToTake.add(print);
+		courseToTake.add(confirmCourse);
 		sizeForPanel += 2;
 		myFrame.add(courseToTake, BorderLayout.CENTER);
 		myFrame.setVisible(true);
