@@ -1,9 +1,13 @@
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 
 import javafx.scene.layout.Border;
 import net.miginfocom.swing.MigLayout;
@@ -28,7 +31,7 @@ public class RateMyClassMain {
 	JButton CourseService = new JButton("Course");
 //	JButton confirmCourse = new JButton("Take");
 	JButton Filter = new JButton("Filter");
-	
+
 	private JTextField searchField;
 	private JTextField courseName = new JTextField(20);
 	private JTextField score = new JTextField("Score", 4);
@@ -37,23 +40,25 @@ public class RateMyClassMain {
 	private JTextField date = new JTextField("Date", 8);
 	private JTextField deptFilter = new JTextField(8);
 	private JTextField scoreFilter = new JTextField(8);
-	JTextArea writtenComment = new JTextArea(5,25);
+	private JTextField professorSearch = new JTextField(20);
+
+	JTextArea writtenComment = new JTextArea(5, 25);
 	String departmentSelected = null;
 	String courseSelected = null;
 	String scoreSelecetd = "1";
 	int courseIDSelected = 0;
-	
+
 	private int sizeForPanel = 0;
 	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
-	
+
 	public RateMyClassMain() {
 		this.myFrame = new JFrame();
 		myFrame.setSize(1500, 1000);
 		myFrame.setTitle("Rate My Class");
-	    myFrame.setLocationRelativeTo(null);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panelForPost.setLayout(new MigLayout());
-        //panel for course
+		myFrame.setLocationRelativeTo(null);
+		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panelForPost.setLayout(new MigLayout());
+		// panel for course
 //        courseToTake.setLayout(new MigLayout());
 //    	JButton closeCourse = new JButton("Close");
 //    	JLabel courseLabel = new JLabel("Course Service     ");
@@ -94,18 +99,25 @@ public class RateMyClassMain {
 //			}
 //		});
 //
-		
-        
-        //Panel for Search
-        JPanel panelForSearch = new JPanel();
+
+		// Panel for Search
+		JPanel panelForSearch = new JPanel();
 		panelForSearch.setLayout(new GridBagLayout());
-		panelForSearch.setSize(200, 300);		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		panelForSearch.setSize(200, 300);
 		JLabel searchLabel = new JLabel("Class Search: ");
-		panelForSearch.add(searchLabel);
-		
+		panelForSearch.add(searchLabel,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+
 		searchField = new JTextField(40);
-		panelForSearch.add(searchField);
-		
+		panelForSearch.add(searchField,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+
 		postComment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,11 +126,20 @@ public class RateMyClassMain {
 
 			}
 		});
-		
+
 		JButton searchButton = new JButton("Submit");
-		panelForSearch.add(searchButton);
-		panelForSearch.add(postComment);
-		panelForSearch.add(CourseService);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 0;
+		panelForSearch.add(searchButton,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 0;
+		panelForSearch.add(postComment,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 0;
+		panelForSearch.add(CourseService,c);
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,8 +148,8 @@ public class RateMyClassMain {
 				postComment.setVisible(false);
 			}
 		});
-		
-		closeSearching.addActionListener(new ActionListener() {		
+
+		closeSearching.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelForDisplay.setVisible(false);
@@ -142,21 +163,23 @@ public class RateMyClassMain {
 				// TODO Auto-generated method stub
 				myFrame.setVisible(false);
 				myFrame.dispose();
-				new CoursePage();				
+				new CoursePage();
 			}
 		});
-		
-		confirmPost.addActionListener(new ActionListener() {	
+
+		confirmPost.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CommentService cs = new CommentService();
-				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user, courseSelected, "prof1")) {
+				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user,
+						courseSelected, "prof1")) {
 					panelForPost.setVisible(false);
 				}
 			}
 		});
-		
+
 		JButton logout = new JButton("Log Out");
+		
 		logout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -165,7 +188,7 @@ public class RateMyClassMain {
 				new UserLogIn();
 			}
 		});
-		
+
 		JButton profile = new JButton("My Account");
 		profile.addActionListener(new ActionListener() {
 			@Override
@@ -175,16 +198,31 @@ public class RateMyClassMain {
 				new Profile();
 			}
 		});
-		panelForSearch.add(logout);
-		panelForSearch.add(profile);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 6;
+		c.gridy = 0;
+		panelForSearch.add(logout,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 7;
+		c.gridy = 0;
+		panelForSearch.add(profile,c);
+		// panelForSearch.setLayout(new FlowLayout());
+		panelForSearch.setLayout(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		panelForSearch.add(new JLabel("Professor Search:    "),c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		panelForSearch.add(professorSearch,c);
+
 //		myFrame.add(panelForCourse, BorderLayout.SOUTH);
 		myFrame.add(panelForSearch, BorderLayout.NORTH);
 		myFrame.setVisible(true);
-		
-		
+
 	}
-	
-	
+
 	public void initPanelDisplay() {
 		panelForDisplay.setLayout(new MigLayout());
 		courseName.setEditable(false);
@@ -194,14 +232,14 @@ public class RateMyClassMain {
 		date.setEditable(false);
 		courseName.setText(searchField.getText());
 		JLabel deptLabel = new JLabel("Department     ");
-    	JLabel scoreLabel = new JLabel("Score Greater than     ");
+		JLabel scoreLabel = new JLabel("Score Greater than     ");
 		panelForDisplay.add(new JLabel("Course Name:"));
 		panelForDisplay.add(courseName);
 		panelForDisplay.add(deptLabel);
 		panelForDisplay.add(deptFilter);
 		panelForDisplay.add(scoreLabel);
 		panelForDisplay.add(scoreFilter);
-        panelForDisplay.add(Filter);
+		panelForDisplay.add(Filter);
 		panelForDisplay.add(closeSearching, "wrap");
 		panelForDisplay.add(score, "skip, split4");
 		panelForDisplay.add(comment);
@@ -209,13 +247,12 @@ public class RateMyClassMain {
 		panelForDisplay.add(date, "wrap");
 	}
 
-
 	public void displayComment() {
 		initPanelDisplay();
-		
+
 		this.re = getComments();
-		
-        Filter.addActionListener(new ActionListener() {
+
+		Filter.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -226,19 +263,17 @@ public class RateMyClassMain {
 				re = filterComments();
 				printRe();
 			}
-        	
-        });
-		
-		
-        printRe();
-		
-		
+
+		});
+
+		printRe();
+
 	}
-	
+
 	public void printRe() {
-		
-		for(int i = 0; i < re.size(); i++) {
-			String [] a = new String [] {"1", "2", "3", "4", "5"};
+
+		for (int i = 0; i < re.size(); i++) {
+			String[] a = new String[] { "1", "2", "3", "4", "5" };
 			JComboBox tempScore = new JComboBox(a);
 			tempScore.setSelectedItem(re.get(i).get(1));
 			tempScore.setEnabled(false);
@@ -249,20 +284,20 @@ public class RateMyClassMain {
 //			JTextArea tempComment = new JTextArea(re.get(i).get(0), 8, 3);
 //			JTextArea tempAuthor = new JTextArea(re.get(i).get(6), 8, 3);
 //			JTextArea tempDate = new JTextArea(re.get(i).get(2), 8, 3);
-			
+
 			int commentID = Integer.parseInt(re.get(i).get(5));
 			tempComment.setEditable(false);
 			tempAuthor.setEditable(false);
 			tempDate.setEditable(false);
-			
+
 			JTextField placeHolder = new JTextField();
 			placeHolder.setVisible(false);
-			
+
 			panelForDisplay.add(tempScore, "skip, split4");
 			panelForDisplay.add(tempComment);
 			panelForDisplay.add(tempAuthor);
 			panelForDisplay.add(tempDate);
-			
+
 			if (UserLogIn.user.equals(tempAuthor.getText())) {
 				CommentService cs = new CommentService();
 				JButton edit = new JButton("Edit");
@@ -288,8 +323,9 @@ public class RateMyClassMain {
 						edit.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								System.out.println(tempScore.getSelectedItem() + "      " + tempComment.getText()); 
-								cs.editComment(UserLogIn.user, commentID, tempComment.getText(), Integer.parseInt(tempScore.getSelectedItem().toString()));
+								System.out.println(tempScore.getSelectedItem() + "      " + tempComment.getText());
+								cs.editComment(UserLogIn.user, commentID, tempComment.getText(),
+										Integer.parseInt(tempScore.getSelectedItem().toString()));
 								panelForDisplay.setVisible(false);
 								postComment.setVisible(true);
 								panelForDisplay = new JPanel();
@@ -299,26 +335,23 @@ public class RateMyClassMain {
 					}
 				});
 			}
-			panelForDisplay.add(placeHolder,"wrap");
+			panelForDisplay.add(placeHolder, "wrap");
 
 		}
 		myFrame.add(panelForDisplay, BorderLayout.CENTER);
 		myFrame.setVisible(true);
-		
+
 	}
-	
+
 	protected ArrayList<ArrayList<String>> filterComments() {
 		CommentService cs = new CommentService();
-		return cs.getCommentByScoreOrDept(scoreFilter.getText(), deptFilter.getText(), searchField.getText());
+		return cs.getCommentByScoreOrDept(scoreFilter.getText(), deptFilter.getText(), searchField.getText(),
+				professorSearch.getText());
 	}
-
-
-
-
 
 	public ArrayList<ArrayList<String>> getComments() {
 		CommentService cs = new CommentService();
-		return cs.getComment(searchField.getText());
+		return cs.getComment(searchField.getText(), professorSearch.getText());
 	}
 //	public void takeCourseDept() {
 //		// the selection process for course Service
@@ -383,16 +416,13 @@ public class RateMyClassMain {
 //	}
 //		
 
-
-
-
 	public void chooseDepartment() {
 
 		panelForPost.removeAll();
 		DepartmentService ds = new DepartmentService();
 		ArrayList<String> departments = ds.getDepartments();
 		JComboBox departmentList = new JComboBox(parseArrayListToArray(departments));
-		
+
 		departmentList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -413,17 +443,17 @@ public class RateMyClassMain {
 		myFrame.add(panelForPost, BorderLayout.CENTER);
 		myFrame.setVisible(true);
 	}
-	
+
 	public void chooseCourse() {
 
 		CourseService cs = new CourseService();
 		ArrayList<String> courses = cs.getCoursesByDepartment(departmentSelected);
 		JComboBox courseList = new JComboBox(parseArrayListToArray(courses));
-		
+
 		courseList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (int i = sizeForPanel - 1; i > 1; i--){
+				for (int i = sizeForPanel - 1; i > 1; i--) {
 					panelForPost.remove(i);
 					sizeForPanel--;
 				}
@@ -435,27 +465,27 @@ public class RateMyClassMain {
 
 			}
 		});
-		
+
 		panelForPost.add(new JLabel("Choose a course: "));
 		panelForPost.add(courseList, "wrap");
 		sizeForPanel += 2;
 		myFrame.add(panelForPost, BorderLayout.CENTER);
 		myFrame.setVisible(true);
 	}
-	
+
 	public void addComment() {
 		panelForPost.add(new JLabel("Choose a score: "));
-		String[] scores = {"1", "2", "3", "4", "5"};
+		String[] scores = { "1", "2", "3", "4", "5" };
 		JComboBox scoreList = new JComboBox(scores);
 		panelForPost.add(scoreList, "wrap");
-		
+
 		scoreList.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				scoreSelecetd = ((JComboBox) e.getSource()).getSelectedItem().toString();
 			}
 		});
-		
+
 		panelForPost.add(new JLabel("Comment: "));
 		panelForPost.add(writtenComment, "wrap");
 		panelForPost.add(confirmPost, "skip2");
@@ -463,7 +493,7 @@ public class RateMyClassMain {
 		myFrame.add(panelForPost, BorderLayout.CENTER);
 		myFrame.setVisible(true);
 	}
-	
+
 	public String[] parseArrayListToArray(ArrayList<String> arr) {
 		String[] temp = new String[arr.size()];
 		for (int i = 0; i < arr.size(); i++) {
