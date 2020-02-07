@@ -144,6 +144,8 @@ public class RateMyClassMain {
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panelForDisplay.setVisible(false);
+				panelForDisplay = new JPanel();
 				displayComment();
 				panelForDisplay.setVisible(true);
 				postComment.setVisible(false);
