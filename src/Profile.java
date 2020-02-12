@@ -48,7 +48,7 @@ public class Profile {
 		nickNameResult.setText(result.get(1));
 		emailResult.setText(result.get(2));
 		roleResult.setText(result.get(3));
-		majorResult.setText(formattedMajors());
+		majorResult.setText(MajorService.formattedMajors(MajorService.getMyMajors()));
 		
 		panelContent.add(username);
 		panelContent.add(usernameResult, "wrap");
@@ -108,36 +108,5 @@ public class Profile {
 			e.printStackTrace();
 		}
 		return arr;
-	}
-	
-	private ArrayList<String> getMajors() {
-		ArrayList<String> arr = new ArrayList<>();
-		PreparedStatement ps = null;
-		String statement = "Select Name\n" + 
-					       "from [Majors In] join Major on [Major ID] = ID\n" + 
-					       "Where [Student Username] = '" + UserLogIn.user + "'";
-		
-		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				arr.add(rs.getString(rs.findColumn("Name")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return arr;
-	}
-	
-	private String formattedMajors() {
-		String s = "";
-		ArrayList<String> arr = getMajors();
-		for (int i = 0; i < arr.size(); i++) {
-			s += arr.get(i);
-			if (i < arr.size() - 1) {
-				s += ", ";
-			}
-		}
-		return s;
 	}
 }

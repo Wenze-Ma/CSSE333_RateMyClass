@@ -157,14 +157,32 @@ public class RateMyClassMain {
 				new Profile();
 			}
 		});
+		
+		JButton major = new JButton("Major Info");
+		major.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myFrame.setVisible(false);
+				myFrame.dispose();
+				new MajorInfo();
+			}
+		});
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 6;
 		c.gridy = 0;
 		panelForSearch.add(logout,c);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 7;
 		c.gridy = 0;
 		panelForSearch.add(profile,c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 8;
+		c.gridy = 0;
+		
+		panelForSearch.add(major,c);
+		
 		panelForSearch.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -384,7 +402,7 @@ public class RateMyClassMain {
 		myFrame.setVisible(true);
 	}
 
-	public String[] parseArrayListToArray(ArrayList<String> arr) {
+	public static String[] parseArrayListToArray(ArrayList<String> arr) {
 		String[] temp = new String[arr.size()];
 		for (int i = 0; i < arr.size(); i++) {
 			temp[i] = arr.get(i);

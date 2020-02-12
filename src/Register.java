@@ -21,6 +21,7 @@ public class Register {
 	private JComboBox roleField = new JComboBox(roleStrings);
 	
 	private String role = "s";
+	private String majorSelected = "Computer Science";
 
 
 	
@@ -39,10 +40,16 @@ public class Register {
         JLabel nameLabel = new JLabel("Prefered Name: ");
         JLabel roleLabel = new JLabel("Role: ");
         JLabel emailLabel = new JLabel("Email: ");
+        JLabel majorLabel = new JLabel("Major: ");
         usernameField = new JTextField(20);
     	passwordField = new JTextField(20);
     	nameField = new JTextField(20);
     	emailField = new JTextField(20);
+    	
+    	
+    	MajorService ms = new MajorService();
+    	String[] majors = RateMyClassMain.parseArrayListToArray(ms.getMajors());
+    	JComboBox majorList = new JComboBox(majors);
 
     	JButton submit = new JButton("Submit");
     	JButton back = new JButton("Go Back to Log in");
@@ -53,21 +60,35 @@ public class Register {
         panel.add(passwordField, "wrap");
         panel.add(nameLabel);
         panel.add(nameField, "wrap");
-        panel.add(roleLabel);
-        panel.add(roleField, "wrap");
         panel.add(emailLabel);
         panel.add(emailField, "wrap");
+        panel.add(roleLabel);
+        panel.add(roleField, "wrap");
+        panel.add(majorLabel);
+        panel.add(majorList, "wrap");
         panel.add(back, "skip, split2");
         panel.add(submit);
+        
         
         roleField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if ((((JComboBox) e.getSource()).getSelectedItem().toString()).equals("Student")) {
 					role = "s";
+					majorList.setVisible(true);
+					majorLabel.setVisible(true);
 				} else {
 					role = "t";
+					majorList.setVisible(false);
+					majorLabel.setVisible(false);
 				}
+			}
+		});
+        
+        majorList.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				majorSelected = ((JComboBox) e.getSource()).getSelectedItem().toString();
 			}
 		});
         
@@ -98,6 +119,10 @@ public class Register {
 			myFrame.setVisible(false);
 			myFrame.dispose();
 			new RateMyClassMain();
+		}
+		if (role.equals("s")) {
+			MajorService ms = new MajorService();
+			ms.addMajor(UserLogIn.user, majorSelected);
 		}
 	}
 }
