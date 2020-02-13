@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,10 +18,11 @@ public class MajorInfo {
 	private JFrame myFrame;
 	private ArrayList<String> majors = new ArrayList<>();
 	private ArrayList<String> requiredCourses = new ArrayList<>();
+	private HashMap<JButton, String> commentLink = new HashMap<>();
 	
 	public MajorInfo() {
 		myFrame = new JFrame();
-		myFrame.setSize(500, 720);
+		myFrame.setSize(700, 720);
 	    myFrame.setLocationRelativeTo(null);
 		myFrame.setTitle("Major Info");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,15 +48,19 @@ public class MajorInfo {
 				text += " (taken)";
 			}
 			JLabel currentCourse = new JLabel(text);
+			JButton currentButton = new JButton("View Comments");
+			currentButton.addActionListener(new LinkActionListener(requiredCourses.get(i), myFrame));
+			
 			
 			if (i == 0) {
-				panelContent.add(currentCourse, "wrap");
+				panelContent.add(currentCourse);
+				panelContent.add(currentButton, "wrap");
 			} else {
-				panelContent.add(currentCourse, "wrap, skip, split2");
+				panelContent.add(currentCourse, "skip, split");
+				panelContent.add(currentButton, "wrap, skip, split2");
 			}
 		}
-
-				
+		
 		myFrame.add(panelContent, BorderLayout.CENTER);
 		
 		JButton back = new JButton("Go Back To The Home Page");
