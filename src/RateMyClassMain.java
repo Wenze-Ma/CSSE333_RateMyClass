@@ -268,6 +268,15 @@ public class RateMyClassMain {
 			panelForDisplay.add(tempComment);
 			panelForDisplay.add(tempAuthor);
 			panelForDisplay.add(tempDate);
+			
+			JButton view = new JButton("View");
+			panelForDisplay.add(view);
+			view.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new CommentDetail(commentID + "", courseName.getText(), tempComment.getText(), tempAuthor.getText(), tempDate.getText(), tempScore.getSelectedItem().toString());
+				}
+			});
 
 			if (UserLogIn.user.equals(tempAuthor.getText())) {
 				CommentService cs = new CommentService();
