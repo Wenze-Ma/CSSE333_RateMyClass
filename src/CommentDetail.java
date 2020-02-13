@@ -24,8 +24,9 @@ public class CommentDetail {
 	private String author;
 	private String date;
 	private String score;
+	private String professor;
 	
-	public CommentDetail(String commentID, String courseName, String comment, String author, String date, String score ) {
+	public CommentDetail(String commentID, String courseName, String comment, String author, String date, String score, String professor) {
 		myFrame = new JFrame();
 		myFrame.setSize(700, 720);
 	    myFrame.setLocationRelativeTo(null);
@@ -37,6 +38,7 @@ public class CommentDetail {
         this.author = author;
         this.date = date;
         this.score = score;
+        this.professor = professor;
         setup();
 	}
 
@@ -54,6 +56,8 @@ public class CommentDetail {
 		JLabel author = new JLabel(this.author);
 		JLabel dateLabel =new JLabel("Date: ");
 		JLabel date = new JLabel(this.date);
+		JLabel profLabel =new JLabel("Taken with: ");
+		JLabel prof = new JLabel(this.professor);
 		
 		comment.setLineWrap( true );
 		comment.setWrapStyleWord( true );
@@ -68,6 +72,8 @@ public class CommentDetail {
 		panelContent.add(comment, "wrap");
 		panelContent.add(authorLabel);
 		panelContent.add(author, "wrap");
+		panelContent.add(profLabel);
+		panelContent.add(prof, "wrap");
 		panelContent.add(dateLabel);
 		panelContent.add(date, "wrap");
 		

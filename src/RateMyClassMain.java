@@ -5,6 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -45,6 +48,9 @@ public class RateMyClassMain {
 	String courseSelected = null;
 	String scoreSelecetd = "1";
 	int courseIDSelected = 0;
+	
+	String[] professors = parseArrayListToArray(getProfessors());
+	String selectedProf = professors[0];
 
 	private int sizeForPanel = 0;
 	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
@@ -131,7 +137,7 @@ public class RateMyClassMain {
 			public void actionPerformed(ActionEvent e) {
 				CommentService cs = new CommentService();
 				if (cs.addComment(writtenComment.getText(), Integer.parseInt(scoreSelecetd), UserLogIn.user,
-						courseSelected, "prof1")) {
+						courseSelected, selectedProf)) {
 					panelForPost.setVisible(false);
 				}
 			}
@@ -274,7 +280,7 @@ public class RateMyClassMain {
 			view.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new CommentDetail(commentID + "", courseName.getText(), tempComment.getText(), tempAuthor.getText(), tempDate.getText(), tempScore.getSelectedItem().toString());
+					new CommentDetail(commentID + "", courseName.getText(), tempComment.getText(), tempAuthor.getText(), tempDate.getText(), tempScore.getSelectedItem().toString(), selectedProf);
 				}
 			});
 
@@ -402,11 +408,22 @@ public class RateMyClassMain {
 				scoreSelecetd = ((JComboBox) e.getSource()).getSelectedItem().toString();
 			}
 		});
-
+		
+		
+		JComboBox profList = new JComboBox(professors);
+		profList.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectedProf = ((JComboBox) e.getSource()).getSelectedItem().toString();
+			}
+		});
+		
+		panelForPost.add(new JLabel("Professor: "));
+		panelForPost.add(profList, "wrap");
 		panelForPost.add(new JLabel("Comment: "));
 		panelForPost.add(writtenComment, "wrap");
 		panelForPost.add(confirmPost, "skip2");
-		sizeForPanel += 5;
+		sizeForPanel += 7;
 		myFrame.add(panelForPost, BorderLayout.CENTER);
 		myFrame.setVisible(true);
 	}
@@ -417,5 +434,22 @@ public class RateMyClassMain {
 			temp[i] = arr.get(i);
 		}
 		return temp;
+	}
+	
+	public ArrayList<String> getProfessors(){
+		ArrayList<String> result = new ArrayList<>();
+		PreparedStatement ps = null;
+		String statement = "Select Username From Professor";
+		try {
+			ps = Main.connS.getConnection().prepareStatement(statement);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+	            result.add(rs.getString("Username"));
+	        }
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
