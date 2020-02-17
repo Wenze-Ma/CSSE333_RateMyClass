@@ -129,6 +129,7 @@ public class CoursePage {
 			panelForDisplay.add(tempDept);
 			panelForDisplay.add(tempscore);
 			JButton drop = new JButton("DROP");
+			JButton comment = new JButton("COMMENT");
 			drop.addActionListener(new ActionListener() {		
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -138,7 +139,9 @@ public class CoursePage {
 					displayCourseTaken();
 				}
 			});
+			comment.addActionListener(new LinkActionListener(tempName.getText(), myFrame, "course"));
 			panelForDisplay.add(drop);
+			panelForDisplay.add(comment);
 			panelForDisplay.add(placeHolder, "wrap");
 		}
 		myFrame.add(panelForDisplay,BorderLayout.CENTER);

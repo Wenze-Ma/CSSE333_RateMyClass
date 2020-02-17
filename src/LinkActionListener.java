@@ -16,17 +16,19 @@ class LinkActionListener implements ActionListener{
 			
 			private String courseName;
 			private JFrame myFrame;
+			private String linkTo;
 			
-			public LinkActionListener(String courseName, JFrame myFrame) {
+			public LinkActionListener(String courseName, JFrame myFrame, String link) {
 				this.courseName = courseName;
 				this.myFrame = myFrame;
+				this.linkTo = link;
 			}
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				myFrame.setVisible(false);
 				myFrame.dispose();
-				new CommentsFromLink(this.courseName);
+				new CommentsFromLink(this.courseName, this.linkTo);
 			}
 			
 			

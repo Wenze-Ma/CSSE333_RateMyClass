@@ -19,9 +19,10 @@ public class CommentsFromLink {
 	private String courseName;
 	private JFrame myFrame;
 	private JPanel panelForDisplay = new JPanel();
+	private String linkTo;
 	private JPanel esc = new JPanel();
 	JButton Filter = new JButton("Filter");
-	JButton close = new JButton("Back to Major info");
+	JButton close = new JButton("Back to Linked Page");
 	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
 	
 	private JTextField score = new JTextField("Score", 4);
@@ -33,8 +34,9 @@ public class CommentsFromLink {
 	
 	
 	
-	public CommentsFromLink(String courseName) {
+	public CommentsFromLink(String courseName, String LinkTo) {
 		this.courseName = courseName;
+		this.linkTo = LinkTo;
 		myFrame = new JFrame();
 		myFrame.setSize(1000, 720);
 	    myFrame.setLocationRelativeTo(null);
@@ -83,16 +85,26 @@ public class CommentsFromLink {
 			}
 
 		});
-		close.addActionListener(new ActionListener() {
-
+		if(this.linkTo.equals("major")) {
+			close.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				myFrame.setVisible(false);
-				myFrame.dispose();
-				new MajorInfo();
-			}
-			
-		});
+				public void actionPerformed(ActionEvent arg0) {
+					myFrame.setVisible(false);
+					myFrame.dispose();
+					new MajorInfo();
+				}
+			});
+		}else if(this.linkTo.equals("course")) {
+			close.addActionListener(new ActionListener() {
+				@Override
+					public void actionPerformed(ActionEvent arg0) {
+						myFrame.setVisible(false);
+						myFrame.dispose();
+						new CoursePage();
+					}
+				});
+		}
+		
 		
 
 		printRe();

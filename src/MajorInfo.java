@@ -49,7 +49,7 @@ public class MajorInfo {
 			}
 			JLabel currentCourse = new JLabel(text);
 			JButton currentButton = new JButton("View Comments");
-			currentButton.addActionListener(new LinkActionListener(requiredCourses.get(i), myFrame));
+			currentButton.addActionListener(new LinkActionListener(requiredCourses.get(i), myFrame, "major"));
 			
 			
 			if (i == 0) {
