@@ -194,4 +194,39 @@ public class CourseService {
 			return result;
 		}
 
+		public ArrayList<ArrayList<String>> getCoursesInfoByDeptName(String dept) {
+			// TODO Auto-generated method stub
+			ArrayList<ArrayList<String>> result = new ArrayList<>();
+			ArrayList<String> titleLine = new ArrayList();
+			titleLine.add("Course ID");
+			titleLine.add("Course Name");
+			titleLine.add("Course Number");
+			titleLine.add("Average Rate");
+			result.add(titleLine);
+			PreparedStatement ps = null;
+			String statement = "Select c.ID, c.Name, c.Number, 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
+							   "From Course c Left Join Comment on Comment.CourseID = c.ID\n"
+							   + "Join Department d on c.Dept = d.ID \n"
+							   + "where d.Name = '" + dept + "'" + "Group by c.ID, c.Name, c.Number";
+			try {
+				ps = Main.connS.getConnection().prepareStatement(statement);
+				ResultSet rs = ps.executeQuery();
+				int courseID = rs.findColumn("ID");
+				int courseName = rs.findColumn("Name");
+				int courseNum = rs.findColumn("Number");
+				int rate = rs.findColumn("rate");
+				while (rs.next()) {
+					ArrayList<String> re = new ArrayList<String>();
+					re.add(rs.getString(courseID));
+					re.add(rs.getString(courseName));
+					re.add(rs.getString(courseNum));
+					re.add(rs.getString(rate));
+					result.add(re);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
 }
