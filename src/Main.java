@@ -1,8 +1,12 @@
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,8 +17,25 @@ import javax.swing.JTextField;
 import java.sql.Connection;
 
 public class Main {
+	
+	
+	public Main() {
+		try (InputStream input = new FileInputStream("path/to/ratemyclassapp.properties")) {
 
-	public static ConnectionService connS = new ConnectionService();
+	        Properties prop = new Properties();
+
+	        // load a properties file
+	        prop.load(input);
+
+	        // get the property value and print it out
+	        System.out.println(prop.getProperty("serverUsername"));
+
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+
+	public static ConnectionService connS = new ConnectionService("RateMyClass","golem.csse.rose-hulman.edu:1433");
 	public static void main(String[] args) {
 		
 	if (connS.connect("RMC20","Password123")) {

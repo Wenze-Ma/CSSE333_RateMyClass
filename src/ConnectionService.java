@@ -7,13 +7,18 @@ import java.util.Properties;
 public class ConnectionService {
 	private Connection conn;
 	
-	public ConnectionService() {
+	private String databaseName;
+	private String serverName;
+	
+	public ConnectionService(String databaseName, String serverName) {
 		conn = null;
+		this.databaseName = databaseName;
+		this.serverName = serverName;
 	}
 	public boolean connect(String user, String password) {
-		String connectionUrl = "jdbc:sqlserver://golem.csse.rose-hulman.edu:1433;"  
-				  + "database=RateMyClass;"
-                  + "user=" + user + ";"
+		String connectionUrl = "jdbc:sqlserver://" + this.serverName
+				  + ";database=" + this.databaseName
+                  + ";user=" + user + ";"
                   + "password=" + password + ";"
                   + "encrypt=false;"
                   + "trustServerCertificate=true;"
