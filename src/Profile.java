@@ -159,9 +159,9 @@ public class Profile {
 			while (rs.next()) {
 				arr.add(rs.getString(rs.findColumn("Username")));
 				arr.add(rs.getString(rs.findColumn("Name")));
-				if (rs.getString(rs.findColumn("Email")).equals("")) {				
+				//if (rs.getString(rs.findColumn("Email")).equals("")) {				
 					arr.add(rs.getString(rs.findColumn("Email")));
-				}
+				//}
 				if ("s".equals(rs.getString(rs.findColumn("Role")))) {
 					arr.add("Student");
 				} else {
