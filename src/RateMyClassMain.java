@@ -144,13 +144,23 @@ public class RateMyClassMain {
 		});
 
 		JButton logout = new JButton("Log Out");
-		
 		logout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				myFrame.setVisible(false);
 				myFrame.dispose();
 				new UserLogIn();
+			}
+		});
+		JButton department = new JButton("Department");
+		department.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				myFrame.setVisible(false);
+				myFrame.dispose();
+				new departmentPage();
 			}
 		});
 
@@ -176,18 +186,22 @@ public class RateMyClassMain {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 6;
 		c.gridy = 0;
-		panelForSearch.add(logout,c);
+		panelForSearch.add(department,c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 7;
 		c.gridy = 0;
-		panelForSearch.add(profile,c);
+		panelForSearch.add(major,c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 8;
 		c.gridy = 0;
+		panelForSearch.add(profile,c);
 		
-		panelForSearch.add(major,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 9;
+		c.gridy = 0;
+		panelForSearch.add(logout,c);
 		
 		panelForSearch.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
