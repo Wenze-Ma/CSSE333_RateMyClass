@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -13,7 +14,7 @@ public class UserLogIn {
 	
 	private JFrame myFrame;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 	
 	public static String user = null;
 
@@ -31,7 +32,7 @@ public class UserLogIn {
         JLabel usernameLabel = new JLabel("Username: ");
         JLabel passwordLabel = new JLabel("Password: ");
         usernameField = new JTextField(20);
-    	passwordField = new JTextField(20);
+    	passwordField = new JPasswordField(20);
     	JButton submit = new JButton("Log in");
     	JButton register = new JButton("I'm a new user");
     	
