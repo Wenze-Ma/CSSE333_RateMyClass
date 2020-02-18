@@ -135,6 +135,8 @@ public class CommentService {
 				JOptionPane.showMessageDialog(null, "Please choose a professor");
 			} else if (result == 50) {
 				JOptionPane.showMessageDialog(null, "Sorry, you didn't take this course and cannot comment it");
+			} else if (result == 60) {
+				JOptionPane.showMessageDialog(null, "Sorry, you can't rate the same course provided by the same professor twice");
 			}
 
 			return false;
