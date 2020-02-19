@@ -24,12 +24,13 @@ public class CommentsFromLink {
 	JButton Filter = new JButton("Filter");
 	JButton close = new JButton("Back to Linked Page");
 	ArrayList<ArrayList<String>> re = new ArrayList<ArrayList<String>>();
+	String currentDepartment;
 	
 	private JTextField score = new JTextField("Score", 4);
 	private JTextField comment = new JTextField("Comment", 8);
 	private JTextField author = new JTextField("Author", 8);
 	private JTextField date = new JTextField("Date", 8);
-	private JTextField deptFilter = new JTextField(8);
+	private JComboBox deptFilter;
 	private JTextField scoreFilter = new JTextField(8);
 	
 	
@@ -52,6 +53,22 @@ public class CommentsFromLink {
 		panelForDisplay.add(new JLabel("Course Name:"));
 		panelForDisplay.add(new JLabel(courseName),"wrap, split");
 		panelForDisplay.add(deptLabel);
+		DepartmentService ds = new DepartmentService();
+		ArrayList<String> departments = ds.getDepartments();
+		deptFilter = new JComboBox(departments.toArray());
+		deptFilter.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentDepartment = ((JComboBox) e.getSource()).getSelectedItem().toString();
+				
+			}
+			
+		});
+		if(currentDepartment == null) {
+			currentDepartment = departments.get(0);
+		}
+		deptFilter.setSelectedItem(currentDepartment);
 		panelForDisplay.add(deptFilter);
 		panelForDisplay.add(scoreLabel);
 		panelForDisplay.add(scoreFilter);
@@ -186,7 +203,7 @@ public class CommentsFromLink {
 	
 	protected ArrayList<ArrayList<String>> filterComments() {
 		CommentService cs = new CommentService();
-		return cs.getCommentByScoreOrDept(scoreFilter.getText(), deptFilter.getText(), courseName,
+		return cs.getCommentByScoreOrDept(scoreFilter.getText(), currentDepartment, courseName,
 				null);
 	}
 

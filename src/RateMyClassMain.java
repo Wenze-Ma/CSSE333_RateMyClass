@@ -39,7 +39,7 @@ public class RateMyClassMain {
 	private JTextField comment = new JTextField("Comment", 8);
 	private JTextField author = new JTextField("Author", 8);
 	private JTextField date = new JTextField("Date", 8);
-	private JTextField deptFilter = new JTextField(8);
+	private JComboBox deptFilter;
 	private JTextField scoreFilter = new JTextField(8);
 	private JTextField professorSearch = new JTextField(20);
 
@@ -47,6 +47,7 @@ public class RateMyClassMain {
 	String departmentSelected = null;
 	String courseSelected = null;
 	String scoreSelecetd = "1";
+	String currentDepartment = null;
 	int courseIDSelected = 0;
 	
 	String[] professors = parseArrayListToArray(getProfessors());
@@ -231,6 +232,22 @@ public class RateMyClassMain {
 		panelForDisplay.add(new JLabel("Course Name:"));
 		panelForDisplay.add(courseName);
 		panelForDisplay.add(deptLabel);
+		DepartmentService ds = new DepartmentService();
+		ArrayList<String> departments = ds.getDepartments();
+		deptFilter = new JComboBox(parseArrayListToArray(departments));
+		deptFilter.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentDepartment = ((JComboBox) e.getSource()).getSelectedItem().toString();
+				
+			}
+			
+		});
+		if(currentDepartment == null) {
+			currentDepartment = departments.get(0);
+		}
+		deptFilter.setSelectedItem(currentDepartment);
 		panelForDisplay.add(deptFilter);
 		panelForDisplay.add(scoreLabel);
 		panelForDisplay.add(scoreFilter);
@@ -344,7 +361,7 @@ public class RateMyClassMain {
 
 	protected ArrayList<ArrayList<String>> filterComments() {
 		CommentService cs = new CommentService();
-		return cs.getCommentByScoreOrDept(scoreFilter.getText(), deptFilter.getText(), searchField.getText(),
+		return cs.getCommentByScoreOrDept(scoreFilter.getText(), currentDepartment, searchField.getText(),
 				professorSearch.getText());
 	}
 
