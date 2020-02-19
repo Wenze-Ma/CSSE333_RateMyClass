@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
@@ -13,7 +14,7 @@ import net.miginfocom.swing.MigLayout;
 public class Register {
 	private JFrame myFrame;
 	private JTextField usernameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 	private JTextField nameField;
 	private JTextField emailField;
 	
@@ -42,7 +43,7 @@ public class Register {
         JLabel emailLabel = new JLabel("Email: ");
         JLabel majorLabel = new JLabel("Major: ");
         usernameField = new JTextField(20);
-    	passwordField = new JTextField(20);
+    	passwordField = new JPasswordField(20);
     	nameField = new JTextField(20);
     	emailField = new JTextField(20);
     	
