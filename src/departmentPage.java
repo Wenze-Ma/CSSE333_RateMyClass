@@ -105,7 +105,7 @@ public class departmentPage {
 			courseOfDept.add(tempNum);
 			courseOfDept.add(tempscore);
 			JButton comment = new JButton("COMMENT");
-			comment.addActionListener(new LinkActionListener(tempName.getText(), myFrame, "course"));
+			comment.addActionListener(new LinkActionListener(tempName.getText(), myFrame, "dept"));
 			courseOfDept.add(comment);
 			courseOfDept.add(placeHolder, "wrap");
 		}

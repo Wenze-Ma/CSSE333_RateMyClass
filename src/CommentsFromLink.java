@@ -104,7 +104,7 @@ public class CommentsFromLink {
 		});
 		if(this.linkTo.equals("major")) {
 			close.addActionListener(new ActionListener() {
-			@Override
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					myFrame.setVisible(false);
 					myFrame.dispose();
@@ -114,14 +114,24 @@ public class CommentsFromLink {
 		}else if(this.linkTo.equals("course")) {
 			close.addActionListener(new ActionListener() {
 				@Override
-					public void actionPerformed(ActionEvent arg0) {
-						myFrame.setVisible(false);
-						myFrame.dispose();
-						new CoursePage();
-					}
-				});
-		}
-		
+				public void actionPerformed(ActionEvent arg0) {
+					myFrame.setVisible(false);
+					myFrame.dispose();
+					new CoursePage();
+				}
+			});
+		}else if(this.linkTo.equals("dept"))
+			close.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					myFrame.setVisible(false);
+					myFrame.dispose();
+					new departmentPage();
+				}
+			});
+
+			
+			
 		
 
 		printRe();
