@@ -393,6 +393,7 @@ public class RateMyClassMain {
 		});
 		panelForPost.add(new JLabel("Choose a department: "));
 		panelForPost.add(departmentList, "wrap");
+	
 		sizeForPanel += 2;
 		myFrame.add(panelForPost, BorderLayout.CENTER);
 		myFrame.setVisible(true);

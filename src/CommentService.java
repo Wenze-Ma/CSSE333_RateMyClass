@@ -29,6 +29,7 @@ public class CommentService {
 
 			if (newComment == null || newComment.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Empty commnet not allow");
+				return false;
 			}
 			cs.setString(1, raterName);
 			cs.setInt(2, commentID);
