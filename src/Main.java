@@ -17,7 +17,7 @@ public class Main {
 	public static ConnectionService connS = new ConnectionService();
 	public static void main(String[] args) {
 		
-	if (connS.connect("RMC20","Password123")) {
+	if (connS.connect()) {
 			CommentService cs = new CommentService();
 			ArrayList<ArrayList<String>> re = cs.getComment("course1", "");
 			for(int i = 0; i < re.size(); i++) {
