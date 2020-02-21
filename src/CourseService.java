@@ -99,15 +99,11 @@ public class CourseService {
 		}
 		public int getCourseIDByNumber(String CNumber) {
 			int result = 0;
-			PreparedStatement ps = null;
-//			String statement = "Select c.ID\n"
-//					+ "From Course c\n"
-//					+ "where c.Number = '" + CNumber + "'";
-			String statement = "select * from fn_getCourseByNumber('" + CNumber + "')";
-
+			CallableStatement cs = null;
 			try {
-				ps = Main.connS.getConnection().prepareStatement(statement);
-				ResultSet rs = ps.executeQuery();
+				cs = Main.connS.getConnection().prepareCall("{call getCourseByNumber(?)}");
+				cs.setString(1, CNumber);
+				ResultSet rs = cs.executeQuery();
 				if (rs.next()) {
 		            result = rs.getInt("ID");
 		        }
@@ -121,11 +117,12 @@ public class CourseService {
 		public ArrayList<String> getCoursesByDepartment(String deptName) {
 			ArrayList<String> result = new ArrayList<>();
 			result.add("----");
-			PreparedStatement ps = null;
-			String statement = "select * from fn_getCourseByDepartment('" + deptName + "')";
+			CallableStatement cs = null;
+			
 			try {
-				ps = Main.connS.getConnection().prepareStatement(statement);
-				ResultSet rs = ps.executeQuery();
+				cs = Main.connS.getConnection().prepareCall("{call getCourseByDepartment(?)}");
+				cs.setString(1, deptName);
+				ResultSet rs = cs.executeQuery();
 				while (rs.next()) {
 		            result.add(rs.getString("Number"));
 		        }
@@ -138,11 +135,11 @@ public class CourseService {
 		
 		public ArrayList<String> getCoursesTakenByStudent(String username) {
 			ArrayList<String> result = new ArrayList<>();
-			PreparedStatement ps = null;
-			String statement = "select * from fn_getCourseByStudent('" + username + "')";
+			CallableStatement cs = null;
 			try {
-				ps = Main.connS.getConnection().prepareStatement(statement);
-				ResultSet rs = ps.executeQuery();
+				cs = Main.connS.getConnection().prepareCall("{call getCourseByStudent(?)}");
+				cs.setString(1, username);
+				ResultSet rs = cs.executeQuery();
 				while (rs.next()) {
 		            result.add(rs.getString("Number"));
 		        }
@@ -155,23 +152,18 @@ public class CourseService {
 		
 		public ArrayList<ArrayList<String>> getCoursesInfoByStudent(String username){
 			ArrayList<ArrayList<String>> result = new ArrayList<>();
-			ArrayList<String> titleLine = new ArrayList();
+			ArrayList<String> titleLine = new ArrayList<String>();
 			titleLine.add("Course ID");
 			titleLine.add("Course Name");
 			titleLine.add("Course Number");
 			titleLine.add("Department");
 			titleLine.add("Average Rate");
 			result.add(titleLine);
-			PreparedStatement ps = null;
-//			String statement = "Select c.ID, c.Name, c.Number, d.Name as [Department], 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
-//							   "From Student s join Takes t on s.Username = t.StudentUsername\n"
-//							   + "Join Course c on c.ID = t.CourseID\n" + "Left Join Comment on Comment.CourseID = c.ID\n"
-//							   + "Join Department d on c.Dept = d.ID \n"
-//							   + "where s.Username = '" + username + "'" + "Group by c.ID, c.Name, c.Number, d.Name";
-			String statement = "select * from fn_getCourseInfoByStudent('" + username + "')";
+			CallableStatement cs = null;
 			try {
-				ps = Main.connS.getConnection().prepareStatement(statement);
-				ResultSet rs = ps.executeQuery();
+				cs = Main.connS.getConnection().prepareCall("{call getCourseInfoByStudent(?)}");
+				cs.setString(1, username);
+				ResultSet rs = cs.executeQuery();
 				int courseID = rs.findColumn("ID");
 				int courseName = rs.findColumn("Name");
 				int courseNum = rs.findColumn("Number");
@@ -195,21 +187,17 @@ public class CourseService {
 		public ArrayList<ArrayList<String>> getCoursesInfoByDeptName(String dept) {
 			// TODO Auto-generated method stub
 			ArrayList<ArrayList<String>> result = new ArrayList<>();
-			ArrayList<String> titleLine = new ArrayList();
+			ArrayList<String> titleLine = new ArrayList<String>();
 			titleLine.add("Course ID");
 			titleLine.add("Course Name");
 			titleLine.add("Course Number");
 			titleLine.add("Average Rate");
 			result.add(titleLine);
-			PreparedStatement ps = null;
-//			String statement = "Select c.ID, c.Name, c.Number, 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
-//							   "From Course c Left Join Comment on Comment.CourseID = c.ID\n"
-//							   + "Join Department d on c.Dept = d.ID \n"
-//							   + "where d.Name = '" + dept + "'" + "Group by c.ID, c.Name, c.Number";
-			String statement = "select * from fn_getCourseInfoByDept('" + dept + "')";
+			CallableStatement cs = null;
 			try {
-				ps = Main.connS.getConnection().prepareStatement(statement);
-				ResultSet rs = ps.executeQuery();
+				cs = Main.connS.getConnection().prepareCall("{call getCourseInfoByDept(?)}");
+				cs.setString(1, dept);
+				ResultSet rs = cs.executeQuery();
 				int courseID = rs.findColumn("ID");
 				int courseName = rs.findColumn("Name");
 				int courseNum = rs.findColumn("Number");

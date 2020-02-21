@@ -9,11 +9,10 @@ import javax.swing.JOptionPane;
 public class MajorService {
 	public ArrayList<String> getMajors(){
 		ArrayList<String> result = new ArrayList<>();
-		PreparedStatement ps = null;
-		String statement = "select * from fn_getMajor()";
+		CallableStatement cs = null;
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call getMajor}");
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 	            result.add(rs.getString("Name"));
 	        }
@@ -50,13 +49,12 @@ public class MajorService {
 	
 	public static ArrayList<String> getMyMajors() {
 		ArrayList<String> arr = new ArrayList<>();
-		PreparedStatement ps = null;
-		String statement = "select * from fn_getMyMajor('" + UserLogIn.user + "')";
-
+		CallableStatement cs = null;
 		
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call getMyMajor(?)}");
+			cs.setString(1, UserLogIn.user);
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				arr.add(rs.getString(rs.findColumn("Name")));
 			}

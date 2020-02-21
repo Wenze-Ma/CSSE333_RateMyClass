@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,6 @@ public class MajorInfo {
 	private JFrame myFrame;
 	private ArrayList<String> majors = new ArrayList<>();
 	private ArrayList<String> requiredCourses = new ArrayList<>();
-	private HashMap<JButton, String> commentLink = new HashMap<>();
 	
 	public MajorInfo() {
 		myFrame = new JFrame();
@@ -81,18 +81,11 @@ public class MajorInfo {
 	
 	private ArrayList<String> getRequiredCourses() {
 		ArrayList<String> arr = new ArrayList<>();
-		PreparedStatement ps = null;
-//		String statement = "Select c.Name from Requires join Course c on [Course ID] = c.id join Major m on [Major ID] = m.ID\n" + 
-//						   "Where m.Name = '" + majors.get(0) + "'";
-		String statement = "select * from fn_getRequiredCourses('" + majors.get(0) + "')";
-	
-
-//		for (int i = 1; i < majors.size(); i++) {
-//			statement += " or m.Name = '" + majors.get(i) + "'";
-//		}
+		CallableStatement cs = null;
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call getRequiredCourses(?)}");
+			cs.setString(1, majors.get(0));
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				arr.add(rs.getString(rs.findColumn("Name")));
 			}
@@ -103,14 +96,13 @@ public class MajorInfo {
 	}
 	
 	private boolean isTaken(String course) {
-		PreparedStatement ps = null;
-//		String statement = "Select * from takes join Course c on CourseID = c.id\n" + 
-//						   "where StudentUsername = '" + UserLogIn.user + "' and Name = '" + course + "'";
-		String statement = "select * from fn_isTaken('" + UserLogIn.user + "', '" + course + "')";
-
+		CallableStatement cs = null;
+		
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call isTaken(?,?)}");
+			cs.setString(1, UserLogIn.user);
+			cs.setString(2, course);
+			ResultSet rs = cs.executeQuery();
 			if (rs.next()) {
 				return true;
 			}

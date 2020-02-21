@@ -5,7 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -470,11 +470,10 @@ public class RateMyClassMain {
 	
 	public ArrayList<String> getProfessors(){
 		ArrayList<String> result = new ArrayList<>();
-		PreparedStatement ps = null;
-		String statement = "select * from fn_getProfInfo()";
+		CallableStatement cs = null;
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call getProfInfo}");
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 	            result.add(rs.getString("Username"));
 	        }

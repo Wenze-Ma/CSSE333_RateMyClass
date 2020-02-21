@@ -24,15 +24,15 @@ public class UserService {
 	}
 	
 	public boolean login(String username, String password) {
-		String query = "select * from fn_getUserInfo('" + username + "')";
-		Statement stmt = null;
+		CallableStatement cs = null;
         ResultSet rs = null;
         byte[] salt = null;
 		String hash = null;
 
 		try {
-			stmt = this.dbService.getConnection().createStatement();
-			rs = stmt.executeQuery(query);
+			cs = this.dbService.getConnection().prepareCall("{call getUserInfo(?)}");
+			cs.setString(1, username);
+			rs = cs.executeQuery();
 			if (rs.next()) {
 		        salt = rs.getBytes("Salt");
 		        hash = rs.getString("PasswordHash");

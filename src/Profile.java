@@ -148,12 +148,12 @@ public class Profile {
 	}
 	private ArrayList<String> getInfo() {
 		ArrayList<String> arr = new ArrayList<>();
-		PreparedStatement ps = null;
-		String statement = "select * from fn_getInfo('" + UserLogIn.user + "')";
+		CallableStatement cs = null; 
 
 		try {
-			ps = Main.connS.getConnection().prepareStatement(statement);
-			ResultSet rs = ps.executeQuery();
+			cs = Main.connS.getConnection().prepareCall("{call getInfo(?)}");
+			cs.setString(1, UserLogIn.user);
+			ResultSet rs = cs.executeQuery();
 			while (rs.next()) {
 				arr.add(rs.getString(rs.findColumn("Username")));
 				arr.add(rs.getString(rs.findColumn("Name")));
