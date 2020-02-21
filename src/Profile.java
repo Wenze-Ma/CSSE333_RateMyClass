@@ -149,10 +149,8 @@ public class Profile {
 	private ArrayList<String> getInfo() {
 		ArrayList<String> arr = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select Username, Name, Email, Role\n" + 
-						   "from [user]\n" + 
-						   "where Username = '" + 
-						   UserLogIn.user + "'";
+		String statement = "select * from fn_getInfo('" + UserLogIn.user + "')";
+
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();

@@ -10,7 +10,7 @@ public class MajorService {
 	public ArrayList<String> getMajors(){
 		ArrayList<String> result = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select Name From Major";
+		String statement = "select * from fn_getMajor()";
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();
@@ -51,9 +51,8 @@ public class MajorService {
 	public static ArrayList<String> getMyMajors() {
 		ArrayList<String> arr = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select Name\n" + 
-					       "from [Majors In] join Major on [Major ID] = ID\n" + 
-					       "Where [Student Username] = '" + UserLogIn.user + "'";
+		String statement = "select * from fn_getMyMajor('" + UserLogIn.user + "')";
+
 		
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);

@@ -156,33 +156,36 @@ public class CommentService {
 	public ArrayList<ArrayList<String>> getComment(String courseName, String profName) {
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName "
-				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID ";
-
+//		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName "
+//				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID ";
+//		String statement = "Select * from fn_showallcomments()";
+		String statement = "";
 		try {
 			if (courseName != null && !courseName.isEmpty()) {
 				if (profName != null && !profName.isEmpty()) {
-					statement += "where c2.Name = ? and u.Name = ?";
-					ps = Main.connS.getConnection().prepareStatement(statement);
-					ps.setString(1, courseName);
-					ps.setString(2, profName);
+//					statement += "where c2.Name = ? and u.Name = ?";
+					statement = "select * from fn_showallcomments1('" + courseName + "', '" + profName + "')";
+//					ps = Main.connS.getConnection().prepareStatement(statement);
+//					ps.setString(1, courseName);
+//					ps.setString(2, profName);
 				} else {
-					statement += "where c2.Name = ?";
-					ps = Main.connS.getConnection().prepareStatement(statement);
-					ps.setString(1, courseName);
+					statement = "select * from fn_showallcomments2('" + courseName + "')";
+//					ps = Main.connS.getConnection().prepareStatement(statement);
+//					ps.setString(1, courseName);
 				}
 			} else {
 				if (profName != null && !profName.isEmpty()) {
-					statement += "where u.Name = ?";
-					ps = Main.connS.getConnection().prepareStatement(statement);
-					ps.setString(1, profName);
+					statement = "select * from fn_showallcomments3('" + profName + "')";
+//					ps = Main.connS.getConnection().prepareStatement(statement);
+//					ps.setString(1, profName);
 				} else {
-					statement += "where c2.Name = ?";
-					ps = Main.connS.getConnection().prepareStatement(statement);
-					ps.setString(1, courseName);
+					statement = "select * from fn_showallcomments4('" + courseName + "')";
+//					ps = Main.connS.getConnection().prepareStatement(statement);
+//					ps.setString(1, courseName);
 				}
 			}
-
+//			System.out.println(statement);
+			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();
 			return parseResults(rs);
 		} catch (SQLException e) {
@@ -195,9 +198,10 @@ public class CommentService {
 			String profName) {
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName \r\n"
-				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID join \r\n"
-				+ "Department d on d.ID = c2.Dept ";
+//		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName \r\n"
+//				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID join \r\n"
+//				+ "Department d on d.ID = c2.Dept ";
+		String statement = "";
 		int actualScore = 0;
 		try {
 			if (courseName != null && !courseName.isEmpty()) {
@@ -210,57 +214,69 @@ public class CommentService {
 					}
 					if (deptName != null && !deptName.isEmpty()) {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where c.rate >= ? and d.Name = ? and c2.Name = ? and u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, deptName);
-							ps.setString(3, courseName);
-							ps.setString(4, profName);
+							statement = "select * from fn_showallcomments5('"+ actualScore 
+																		+ "', '" + deptName 
+																		+ "', '" + courseName
+																		+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, deptName);
+//							ps.setString(3, courseName);
+//							ps.setString(4, profName);
 						} else {
-							statement += "where c.rate >= ? and d.Name = ? and c2.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, deptName);
-							ps.setString(3, courseName);
+							statement = "select * from fn_showallcomments6('" + actualScore
+																		+ "', '" + deptName
+																		+ "', '" + courseName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, deptName);
+//							ps.setString(3, courseName);
 						}
 					} else {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where c.rate >= ? and c2.Name = ? and u.name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, courseName);
-							ps.setString(3, profName);
+							statement = "select * from fn_showallcomments7('" + actualScore
+									+ "', '" + courseName
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, courseName);
+//							ps.setString(3, profName);
 						} else {
-							statement += "where c.rate >= ? and c2.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, courseName);
+							statement = "select * from fn_showallcomments8('" + actualScore
+									+ "', '" + courseName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, courseName);
 						}
 					}
 				} else {
 					if (deptName != null) {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where d.Name = ? and c2.name = ? and u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, deptName);
-							ps.setString(2, courseName);
-							ps.setString(3, profName);
+							statement = "select * from fn_showallcomments9('" + deptName
+									+ "', '" + courseName
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, deptName);
+//							ps.setString(2, courseName);
+//							ps.setString(3, profName);
 						} else {
-							statement += "where d.Name = ? and c2.name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, deptName);
-							ps.setString(2, courseName);
+							statement = "select * from fn_showallcomments10('" + deptName
+									+ "', '" + courseName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, deptName);
+//							ps.setString(2, courseName);
 						}
 					} else {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where c2.Name = ? and u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, courseName);
-							ps.setString(2, profName);
+							statement = "select * from fn_showallcomments11('" + courseName
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, courseName);
+//							ps.setString(2, profName);
 						} else {
-							statement += "where c2.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, courseName);
+							statement = "select * from fn_showallcomments12('" + courseName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, courseName);
 						}
 					}
 
@@ -275,56 +291,62 @@ public class CommentService {
 					}
 					if (deptName != null && !deptName.isEmpty()) {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where c.rate >= ? and d.Name = ? and u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, deptName);
-							ps.setString(3, profName);
+							statement = "select * from fn_showallcomments13('" + actualScore
+									+ "', '" + deptName
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, deptName);
+//							ps.setString(3, profName);
 						} else {
-							statement += "where c.rate >= ? and d.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, deptName);
+							statement = "select * from fn_showallcomments14('" + actualScore
+									+ "', '" + deptName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, deptName);
 						}
 					} else {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where c.rate >= ? and u.name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
-							ps.setString(2, profName);
+							statement = "select * from fn_showallcomments15('" + actualScore
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
+//							ps.setString(2, profName);
 						} else {
-							statement += "where c.rate >= ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setInt(1, actualScore);
+							statement = "select * from fn_showallcomments16('" + actualScore + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setInt(1, actualScore);
 						}
 					}
 				} else {
 					if (deptName != null) {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where d.Name = ? and u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, deptName);
-							ps.setString(2, profName);
+							statement = "select * from fn_showallcomments17('" + deptName
+									+ "', '" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, deptName);
+//							ps.setString(2, profName);
 						} else {
-							statement += "where d.Name = ? ";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, deptName);
+							statement = "select * from fn_showallcomments18('" + deptName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, deptName);
 						}
 					} else {
 						if (profName != null && !profName.isEmpty()) {
-							statement += "where u.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, profName);
+							statement = "select * from fn_showallcomments19('" + profName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, profName);
 						} else {
-							statement += "where c2.Name = ?";
-							ps = Main.connS.getConnection().prepareStatement(statement);
-							ps.setString(1, courseName);
+							statement = "select * from fn_showallcomments20('" + courseName + "')";
+//							ps = Main.connS.getConnection().prepareStatement(statement);
+//							ps.setString(1, courseName);
 						}
 					}
 
 				}
 			}
-
+			ps = Main.connS.getConnection().prepareStatement(statement);
+			System.out.println(statement);
 			ResultSet rs = ps.executeQuery();
 			return parseResults(rs);
 		} catch (SQLException e) {
@@ -336,12 +358,13 @@ public class CommentService {
 	public ArrayList<ArrayList<String>> getCommentbyProfessor(String professorName) {
 		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
 		PreparedStatement ps = null;
-		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName "
-				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
-				+ "where u.Name = ?";
+//		String statement = "Select c.content, c.rate, c.Date, c2.Name as [Course Name], u.Name as [Professor Name], c.ID, c.raterName "
+//				+ "from Comment c join [User] u on c.ProfessorUsername = u.Username join Course c2 on c.CourseID = c2.ID "
+//				+ "where u.Name = ?";
+		String statement = "select * from fn_showcommentsbyprof('" + professorName + "')";
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
-			ps.setString(1, professorName);
+//			ps.setString(1, professorName);
 
 			ResultSet rs = ps.executeQuery();
 			return parseResults(rs);

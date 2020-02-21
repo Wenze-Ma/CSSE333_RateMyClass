@@ -471,7 +471,7 @@ public class RateMyClassMain {
 	public ArrayList<String> getProfessors(){
 		ArrayList<String> result = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select Username From Professor";
+		String statement = "select * from fn_getProfInfo()";
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();

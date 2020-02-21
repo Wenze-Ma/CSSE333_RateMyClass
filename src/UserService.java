@@ -24,7 +24,7 @@ public class UserService {
 	}
 	
 	public boolean login(String username, String password) {
-		String query = "Select Salt, PasswordHash \nFrom [User] \nWhere Username = '" + username + "'";
+		String query = "select * from fn_getUserInfo('" + username + "')";
 		Statement stmt = null;
         ResultSet rs = null;
         byte[] salt = null;

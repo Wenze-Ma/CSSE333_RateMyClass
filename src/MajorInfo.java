@@ -82,11 +82,14 @@ public class MajorInfo {
 	private ArrayList<String> getRequiredCourses() {
 		ArrayList<String> arr = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select c.Name from Requires join Course c on [Course ID] = c.id join Major m on [Major ID] = m.ID\n" + 
-						   "Where m.Name = '" + majors.get(0) + "'";
-		for (int i = 1; i < majors.size(); i++) {
-			statement += " or m.Name = '" + majors.get(i) + "'";
-		}
+//		String statement = "Select c.Name from Requires join Course c on [Course ID] = c.id join Major m on [Major ID] = m.ID\n" + 
+//						   "Where m.Name = '" + majors.get(0) + "'";
+		String statement = "select * from fn_getRequiredCourses('" + majors.get(0) + "')";
+	
+
+//		for (int i = 1; i < majors.size(); i++) {
+//			statement += " or m.Name = '" + majors.get(i) + "'";
+//		}
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();
@@ -101,8 +104,10 @@ public class MajorInfo {
 	
 	private boolean isTaken(String course) {
 		PreparedStatement ps = null;
-		String statement = "Select * from takes join Course c on CourseID = c.id\n" + 
-						   "where StudentUsername = '" + UserLogIn.user + "' and Name = '" + course + "'";
+//		String statement = "Select * from takes join Course c on CourseID = c.id\n" + 
+//						   "where StudentUsername = '" + UserLogIn.user + "' and Name = '" + course + "'";
+		String statement = "select * from fn_isTaken('" + UserLogIn.user + "', '" + course + "')";
+
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();

@@ -100,9 +100,11 @@ public class CourseService {
 		public int getCourseIDByNumber(String CNumber) {
 			int result = 0;
 			PreparedStatement ps = null;
-			String statement = "Select c.ID\n"
-					+ "From Course c\n"
-					+ "where c.Number = '" + CNumber + "'";
+//			String statement = "Select c.ID\n"
+//					+ "From Course c\n"
+//					+ "where c.Number = '" + CNumber + "'";
+			String statement = "select * from fn_getCourseByNumber('" + CNumber + "')";
+
 			try {
 				ps = Main.connS.getConnection().prepareStatement(statement);
 				ResultSet rs = ps.executeQuery();
@@ -120,9 +122,7 @@ public class CourseService {
 			ArrayList<String> result = new ArrayList<>();
 			result.add("----");
 			PreparedStatement ps = null;
-			String statement = "Select c.Number\n" + 
-							   "From Department d join course c on d.id = c.Dept\n" + 
-							   "where d.Name = '" + deptName + "'";
+			String statement = "select * from fn_getCourseByDepartment('" + deptName + "')";
 			try {
 				ps = Main.connS.getConnection().prepareStatement(statement);
 				ResultSet rs = ps.executeQuery();
@@ -139,10 +139,7 @@ public class CourseService {
 		public ArrayList<String> getCoursesTakenByStudent(String username) {
 			ArrayList<String> result = new ArrayList<>();
 			PreparedStatement ps = null;
-			String statement = "Select c.Number\n" + 
-							   "From Student s join Takes t r on s.Username = t.StudentUsername\n"
-							   + "Join Course c on c.ID = t.CourseID" + 
-							   "where s. = '" + username + "'";
+			String statement = "select * from fn_getCourseByStudent('" + username + "')";
 			try {
 				ps = Main.connS.getConnection().prepareStatement(statement);
 				ResultSet rs = ps.executeQuery();
@@ -166,11 +163,12 @@ public class CourseService {
 			titleLine.add("Average Rate");
 			result.add(titleLine);
 			PreparedStatement ps = null;
-			String statement = "Select c.ID, c.Name, c.Number, d.Name as [Department], 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
-							   "From Student s join Takes t on s.Username = t.StudentUsername\n"
-							   + "Join Course c on c.ID = t.CourseID\n" + "Left Join Comment on Comment.CourseID = c.ID\n"
-							   + "Join Department d on c.Dept = d.ID \n"
-							   + "where s.Username = '" + username + "'" + "Group by c.ID, c.Name, c.Number, d.Name";
+//			String statement = "Select c.ID, c.Name, c.Number, d.Name as [Department], 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
+//							   "From Student s join Takes t on s.Username = t.StudentUsername\n"
+//							   + "Join Course c on c.ID = t.CourseID\n" + "Left Join Comment on Comment.CourseID = c.ID\n"
+//							   + "Join Department d on c.Dept = d.ID \n"
+//							   + "where s.Username = '" + username + "'" + "Group by c.ID, c.Name, c.Number, d.Name";
+			String statement = "select * from fn_getCourseInfoByStudent('" + username + "')";
 			try {
 				ps = Main.connS.getConnection().prepareStatement(statement);
 				ResultSet rs = ps.executeQuery();
@@ -204,10 +202,11 @@ public class CourseService {
 			titleLine.add("Average Rate");
 			result.add(titleLine);
 			PreparedStatement ps = null;
-			String statement = "Select c.ID, c.Name, c.Number, 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
-							   "From Course c Left Join Comment on Comment.CourseID = c.ID\n"
-							   + "Join Department d on c.Dept = d.ID \n"
-							   + "where d.Name = '" + dept + "'" + "Group by c.ID, c.Name, c.Number";
+//			String statement = "Select c.ID, c.Name, c.Number, 0+ROUND(AVG(Comment.rate), 2) as [rate]\n" + 
+//							   "From Course c Left Join Comment on Comment.CourseID = c.ID\n"
+//							   + "Join Department d on c.Dept = d.ID \n"
+//							   + "where d.Name = '" + dept + "'" + "Group by c.ID, c.Name, c.Number";
+			String statement = "select * from fn_getCourseInfoByDept('" + dept + "')";
 			try {
 				ps = Main.connS.getConnection().prepareStatement(statement);
 				ResultSet rs = ps.executeQuery();

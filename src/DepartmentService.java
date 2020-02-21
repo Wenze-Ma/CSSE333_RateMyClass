@@ -7,7 +7,7 @@ public class DepartmentService {
 	public ArrayList<String> getDepartments(){
 		ArrayList<String> result = new ArrayList<>();
 		PreparedStatement ps = null;
-		String statement = "Select Name From Department";
+		String statement = "select * from fn_getalldept()";
 		try {
 			ps = Main.connS.getConnection().prepareStatement(statement);
 			ResultSet rs = ps.executeQuery();
